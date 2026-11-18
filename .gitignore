@@ -1,0 +1,13 @@
+# Dependency directories
+node_modules/
+
+# Generate output
+dist
+
+# Local environment and configuration files
+*.local
+
+# dotenv environment variable files
+.env
+.env.*
+!.env.example
