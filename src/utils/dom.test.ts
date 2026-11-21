@@ -16,7 +16,7 @@ describe('h', () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it('устанавливает значение select после добавления дочерних элементов', () => {
+  it('устанавливает value значение select после добавления дочерних элементов', () => {
     const select = h('select', { value: 'b' }, h('option', { value: 'a' }, 'A'), h('option', { value: 'b' }, 'B'));
     expect(select.value).toBe('b');
   });
@@ -43,7 +43,7 @@ describe('h', () => {
     expect(updated.className).toBe('updated-box');
   });
 
-  it('устанавливает value, checked и disabled для элементов форм и выбирает option в select', () => {
+  it('устанавливает checked и disabled для элементов форм и выбирает option в select', () => {
     const input = h('input', {
       type: 'text',
       value: 'Солнечный лофт',
@@ -59,13 +59,5 @@ describe('h', () => {
     });
     expect(checkbox.checked).toBe(true);
     expect(checkbox.disabled).toBe(false);
-
-    const select = h(
-      'select',
-      { value: 'Villa' },
-      h('option', { value: 'Studio' }, 'Studio'),
-      h('option', { value: 'Villa' }, 'Villa'),
-    );
-    expect(select.value).toBe('Villa');
   });
 });
