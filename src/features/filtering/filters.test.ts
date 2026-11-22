@@ -53,43 +53,43 @@ const ids = (list: Property[]): string[] => list.map((p) => p.id);
 
 describe('applyFilters', () => {
   it('возвращает всё в исходном порядке с фильтрами по умолчанию', () => {
-    expect(ids(applyFilters(data, DEFAULT_FILTERS))).toEqual([1, 2, 3, 4, 5]);
+    expect(ids(applyFilters(data, DEFAULT_FILTERS))).toEqual(['1', '2', '3', '4', '5']);
   });
 
   it('поиск по части имени, без учёта регистра', () => {
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, query: 'ТИХАЯ' }))).toEqual([3, 5]);
+    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, query: 'ТИХАЯ' }))).toEqual(['3', '5']);
   });
 
   it('при пустом поисковом запросе сохраняются элементы, соответствующие другим фильтрам', () => {
     const result = applyFilters(data, { ...DEFAULT_FILTERS, category: 'Studio' });
-    expect(ids(result)).toEqual([3, 5]);
+    expect(ids(result)).toEqual(['3', '5']);
   });
 
   it('диапазон цен включает граничные значения; ограничения по границам отсутствуют', () => {
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, minPrice: 30, maxPrice: 100 }))).toEqual([1, 4]);
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, minPrice: 100 }))).toEqual([1, 3, 5]);
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, maxPrice: 30 }))).toEqual([2, 4]);
+    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, minPrice: 30, maxPrice: 100 }))).toEqual(['1', '4']);
+    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, minPrice: 100 }))).toEqual(['1', '3', '5']);
+    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, maxPrice: 30 }))).toEqual(['2', '4']);
   });
 
   it('фильтры по вместимости (количеству гостей)', () => {
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, guests: 3 }))).toEqual([1, 3, 5]);
+    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, guests: 3 }))).toEqual(['1', '3', '5']);
     expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, guests: 9 }))).toEqual([]);
   });
 
   it('скрывает объекты, занятые в выбранные даты', () => {
     const dates = { checkIn: '2026-12-12', checkOut: '2026-12-14' };
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, ...dates }))).toEqual([2, 3, 4, 5]);
+    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, ...dates }))).toEqual(['2', '3', '4', '5']);
 
     const free = { checkIn: '2026-12-15', checkOut: '2026-12-17' };
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, ...free }))).toEqual([1, 2, 3, 4, 5]);
+    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, ...free }))).toEqual(['1', '2', '3', '4', '5']);
   });
 
   it('игнорирует даты, если задана только одна из них или если диапазон является недопустимым', () => {
     const onlyIn = { ...DEFAULT_FILTERS, checkIn: '2026-12-12' };
-    expect(ids(applyFilters(data, onlyIn))).toEqual([1, 2, 3, 4, 5]);
+    expect(ids(applyFilters(data, onlyIn))).toEqual(['1', '2', '3', '4', '5']);
 
     const reversed = { ...DEFAULT_FILTERS, checkIn: '2026-12-14', checkOut: '2026-12-12' };
-    expect(ids(applyFilters(data, reversed))).toEqual([1, 2, 3, 4, 5]);
+    expect(ids(applyFilters(data, reversed))).toEqual(['1', '2', '3', '4', '5']);
   });
 
   it('объединяет фильтрацию и сортировку, не изменяя исходные данные', () => {
@@ -99,8 +99,8 @@ describe('applyFilters', () => {
       query: 'ТИХАЯ',
       sort: 'price-desc',
     });
-    expect(ids(result)).toEqual([3, 5]);
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, sort: 'price-asc' }))).toEqual([2, 4, 1, 5, 3]);
+    expect(ids(result)).toEqual(['3', '5']);
+    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, sort: 'price-asc' }))).toEqual(['2', '4', '1', '5', '3']);
     expect(data).toEqual(copy);
   });
 
