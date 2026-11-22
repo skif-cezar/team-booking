@@ -1,0 +1,21 @@
+// Цвета
+$color-bg: #ffffff;
+$color-text: #1f2430;
+$color-primary: #2563eb;
+$color-primary-hover: #1d4ed8;
+
+// Типографика
+$font-family-base: system-ui, 'Segoe UI', Roboto, sans-serif;
+$line-height-base: 1.5;
+
+// Брейкпоинты (desktop-first: стили применяются до этой ширины включительно)
+$breakpoints: (
+  'sm': 576px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+);
+
+// Сетка
+$container-max-width: 1200px;
+$grid-gap: 16px;

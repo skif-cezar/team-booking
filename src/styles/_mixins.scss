@@ -1,0 +1,39 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+// Применяет стили от указанного брейкпоинта и ниже.
+// Пример: @include respond-down('md') { ... }
+@mixin respond-down($name) {
+  $width: map.get($breakpoints, $name);
+
+  @if $width == null {
+    @error 'Неизвестный брейкпоинт: #{$name}';
+  }
+
+  @media (max-width: $width) {
+    @content;
+  }
+}
+
+// Видимый фокус для клавиатуры (пригодится в задаче про a11y)
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+// Центрированный контейнер с ограничением ширины
+@mixin container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+// Адаптивная сетка карточек: сколько влезет колонок не уже $min-width
+@mixin card-grid($min-width: 260px, $gap: $grid-gap) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+  gap: $gap;
+}
