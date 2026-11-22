@@ -109,6 +109,6 @@ export const sortProperties = (properties: readonly Property[], order: SortOrder
  * затем сортирует результат. Именно её вызывает страница каталога
  * при каждом изменении фильтров.
  */
-export const applyFilters = (_properties: readonly Property[], _filters: FilterState): Property[] => {
-  throw new Error('Not implemented');
+export const applyFilters = (properties: readonly Property[], filters: FilterState): Property[] => {
+  return sortProperties(filterProperties(properties, filters), filters.sort);
 };
