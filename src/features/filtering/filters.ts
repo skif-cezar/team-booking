@@ -5,8 +5,10 @@ import type { FilterState, Property, SortOrder } from '../../types';
  * Регистр и пробелы по краям запроса игнорируются.
  * Пустая строка подходит любому жилью (фильтр не применяется).
  */
-export const matchesSearch = (_property: Property, _search: string): boolean => {
-  throw new Error('Not implemented');
+export const matchesSearch = (property: Property, search: string): boolean => {
+  const query = search.trim().toLowerCase();
+
+  return query === '' || property.title.toLowerCase().includes(query);
 };
 
 /**
