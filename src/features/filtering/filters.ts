@@ -1,0 +1,74 @@
+import type { FilterState, Property, SortOrder } from '../../types';
+
+/**
+ * Поиск по названию: true, если название содержит введённый текст.
+ * Регистр и пробелы по краям запроса игнорируются.
+ * Пустая строка подходит любому жилью (фильтр не применяется).
+ */
+export const matchesSearch = (_property: Property, _search: string): boolean => {
+  throw new Error('Not implemented');
+};
+
+/**
+ * Фильтр по категории: true, если выбрано «Все категории» ('all')
+ * или категория жилья совпадает с выбранной.
+ */
+export const matchesCategory = (_property: Property, _category: FilterState['category']): boolean => {
+  throw new Error('Not implemented');
+};
+
+/**
+ * Фильтр по цене за ночь: границы «От» и «До» включительно.
+ * Если граница равна null (поле пустое), она не применяется.
+ */
+export const matchesPrice = (_property: Property, _priceFrom: number | null, _priceTo: number | null): boolean => {
+  throw new Error('Not implemented');
+};
+
+/**
+ * Фильтр по гостям: true, если жильё вмещает не меньше гостей, чем запрошено.
+ * Например, для 3 гостей студия на 2 человека не подойдёт.
+ */
+export const matchesGuests = (_property: Property, _guests: number): boolean => {
+  throw new Error('Not implemented');
+};
+
+/**
+ * Фильтр по датам: true, если жильё свободно на весь период [checkIn, checkOut).
+ * Фильтр применяется, только когда обе даты заданы и корректны (выезд позже заезда).
+ * Иначе возвращает true, то есть ничего не скрывает.
+ * Доступность проверяется по списку занятых периодов property.busy.
+ */
+export const matchesDates = (_property: Property, _checkIn: string | null, _checkOut: string | null): boolean => {
+  throw new Error('Not implemented');
+};
+
+/**
+ * Оставляет только то жильё, которое подходит под ВСЕ фильтры одновременно:
+ * поиск, категория, цена, гости и даты (логическое «И»).
+ * Порядок элементов сохраняется, исходный массив не меняется.
+ */
+export const filterProperties = (_properties: readonly Property[], _filters: FilterState): Property[] => {
+  throw new Error('Not implemented');
+};
+
+/**
+ * Сортирует жильё по цене за ночь:
+ *  - 'price-asc'  — по возрастанию;
+ *  - 'price-desc' — по убыванию;
+ *  - 'default'    — исходный порядок.
+ * Всегда возвращает НОВЫЙ массив (копию), чтобы не мутировать входные данные,
+ * ведь sort() изменяет массив, на котором вызван.
+ */
+export const sortProperties = (_properties: readonly Property[], _order: SortOrder): Property[] => {
+  throw new Error('Not implemented');
+};
+
+/**
+ * Главная функция: сначала фильтрует жильё по всем условиям,
+ * затем сортирует результат. Именно её вызывает страница каталога
+ * при каждом изменении фильтров.
+ */
+export const applyFilters = (_properties: readonly Property[], _filters: FilterState): Property[] => {
+  throw new Error('Not implemented');
+};
