@@ -37,7 +37,7 @@ export const matchesGuests = (_property: Property, _guests: number): boolean => 
  * Фильтр по датам: true, если жильё свободно на весь период [checkIn, checkOut).
  * Фильтр применяется, только когда обе даты заданы и корректны (выезд позже заезда).
  * Иначе возвращает true, то есть ничего не скрывает.
- * Доступность проверяется по списку занятых периодов property.busy.
+ * Доступность проверяется по списку занятых периодов property.bookedRanges.
  */
 export const matchesDates = (_property: Property, _checkIn: string | null, _checkOut: string | null): boolean => {
   throw new Error('Not implemented');
