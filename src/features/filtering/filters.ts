@@ -1,4 +1,5 @@
-import type { FilterState, Property, SortOrder } from '../../types';
+import type { FilterState, IsoDate, Property, SortOrder } from '../../types';
+import { isRangeAvailable, isValidRange } from '../booking/booking';
 
 /**
  * Поиск по названию: true, если название содержит введённый текст.
@@ -56,8 +57,16 @@ export const matchesGuests = (property: Property, guests: number): boolean => {
  * Иначе возвращает true, то есть ничего не скрывает.
  * Доступность проверяется по списку занятых периодов property.bookedRanges.
  */
-export const matchesDates = (_property: Property, _checkIn: string | null, _checkOut: string | null): boolean => {
-  throw new Error('Not implemented');
+export const matchesDates = (property: Property, checkIn: IsoDate | null, checkOut: IsoDate | null): boolean => {
+  if (!checkIn || !checkOut) {
+    return true;
+  }
+
+  if (!isValidRange(checkIn, checkOut)) {
+    return true;
+  }
+
+  return isRangeAvailable(property.bookedRanges, { checkIn, checkOut });
 };
 
 /**
