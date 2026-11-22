@@ -23,8 +23,18 @@ export const matchesCategory = (property: Property, category: FilterState['categ
  * Фильтр по цене за ночь: границы «От» и «До» включительно.
  * Если граница равна null (поле пустое), она не применяется.
  */
-export const matchesPrice = (_property: Property, _priceFrom: number | null, _priceTo: number | null): boolean => {
-  throw new Error('Not implemented');
+export const matchesPrice = (property: Property, minPrice: number | null, maxPrice: number | null): boolean => {
+  const { pricePerNight } = property;
+
+  if (minPrice !== null && pricePerNight < minPrice) {
+    return false;
+  }
+
+  if (maxPrice !== null && pricePerNight > maxPrice) {
+    return false;
+  }
+
+  return true;
 };
 
 /**
