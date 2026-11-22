@@ -39,9 +39,10 @@ describe('store', () => {
     const store = createStore();
     const listener = vi.fn();
 
-    store.subscribe(listener)();
-    store.setFilter('query', 'x');
-
-    expect(listener).not.toHaveBeenCalled();
+    const unsubscribe = store.subscribe(listener);
+    store.setFilter('query', 'a');
+    unsubscribe();
+    store.setFilter('query', 'b');
+    expect(listener).toHaveBeenCalledTimes(1);
   });
 });
