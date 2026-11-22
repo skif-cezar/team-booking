@@ -41,8 +41,13 @@ export const matchesPrice = (property: Property, minPrice: number | null, maxPri
  * Фильтр по гостям: true, если жильё вмещает не меньше гостей, чем запрошено.
  * Например, для 3 гостей студия на 2 человека не подойдёт.
  */
-export const matchesGuests = (_property: Property, _guests: number): boolean => {
-  throw new Error('Not implemented');
+export const matchesGuests = (property: Property, guests: number): boolean => {
+  // если кол-во гостей не указано, то фильтр подходит
+  if (guests === null || guests === undefined) {
+    return true;
+  }
+
+  return property.maxGuests >= guests;
 };
 
 /**
