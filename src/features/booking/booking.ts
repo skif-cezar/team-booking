@@ -19,7 +19,16 @@ export const isValidDate = (value: string): boolean => {
     return false;
   }
 
-  const normalizedIso = new Date(toUtc(value)).toISOString().slice(0, 10);
+  // const normalizedIso = new Date(toUtc(value)).toISOString().slice(0, 10);
+  // return normalizedIso === value;
+  const timestamp = toUtc(value);
+
+  if (Number.isNaN(timestamp)) {
+    return false;
+  }
+
+  const normalizedIso = new Date(timestamp).toISOString().slice(0, 10);
+
   return normalizedIso === value;
 };
 
