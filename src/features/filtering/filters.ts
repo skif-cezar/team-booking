@@ -42,7 +42,7 @@ export const matchesPrice = (property: Property, minPrice: number | null, maxPri
  * Фильтр по гостям: true, если жильё вмещает не меньше гостей, чем запрошено.
  * Например, для 3 гостей студия на 2 человека не подойдёт.
  */
-export const matchesGuests = (property: Property, guests: number): boolean => {
+export const matchesGuests = (property: Property, guests: number | null): boolean => {
   // если кол-во гостей не указано, то фильтр подходит
   if (guests === null || guests === undefined) {
     return true;
@@ -74,8 +74,15 @@ export const matchesDates = (property: Property, checkIn: IsoDate | null, checkO
  * поиск, категория, цена, гости и даты (логическое «И»).
  * Порядок элементов сохраняется, исходный массив не меняется.
  */
-export const filterProperties = (_properties: readonly Property[], _filters: FilterState): Property[] => {
-  throw new Error('Not implemented');
+export const filterProperties = (properties: readonly Property[], filters: FilterState): Property[] => {
+  return properties.filter(
+    (property) =>
+      matchesSearch(property, filters.query) &&
+      matchesCategory(property, filters.category) &&
+      matchesPrice(property, filters.minPrice, filters.maxPrice) &&
+      matchesGuests(property, filters.guests) &&
+      matchesDates(property, filters.checkIn, filters.checkOut),
+  );
 };
 
 /**
