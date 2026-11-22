@@ -93,8 +93,15 @@ export const filterProperties = (properties: readonly Property[], filters: Filte
  * Всегда возвращает НОВЫЙ массив (копию), чтобы не мутировать входные данные,
  * ведь sort() изменяет массив, на котором вызван.
  */
-export const sortProperties = (_properties: readonly Property[], _order: SortOrder): Property[] => {
-  throw new Error('Not implemented');
+export const sortProperties = (properties: readonly Property[], order: SortOrder): Property[] => {
+  switch (order) {
+    case 'price-asc':
+      return [...properties].sort((a, b) => a.pricePerNight - b.pricePerNight);
+    case 'price-desc':
+      return [...properties].sort((a, b) => b.pricePerNight - a.pricePerNight);
+    default:
+      return [...properties];
+  }
 };
 
 /**
