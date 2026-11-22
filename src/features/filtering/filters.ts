@@ -15,8 +15,8 @@ export const matchesSearch = (property: Property, search: string): boolean => {
  * Фильтр по категории: true, если выбрано «Все категории» ('all')
  * или категория жилья совпадает с выбранной.
  */
-export const matchesCategory = (_property: Property, _category: FilterState['category']): boolean => {
-  throw new Error('Not implemented');
+export const matchesCategory = (property: Property, category: FilterState['category']): boolean => {
+  return category === 'all' || property.category === category;
 };
 
 /**
