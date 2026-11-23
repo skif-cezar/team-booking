@@ -1,4 +1,6 @@
-export type IsoDate = string; // 'YYYY-MM-DD'
+export type IsoDate = `${number}-${number}-${number}`; // 'YYYY-MM-DD'
+
+export type BookingReason = string;
 
 export type ApartmentCategory =
   'Классика Букиных' | 'Холостяцкая берлога' | 'Люкс с джакузи' | 'Гараж и дача' | 'Элитный пентхаус';
@@ -44,7 +46,7 @@ export interface Apartment {
   amenities: AmenityItem[];
   services: ServiceOption[];
   houseRules: string[];
-  bookedDates: DateRange[];
+  bookedDates: Record<IsoDate, BookingReason>;
 }
 
 export interface SearchFilters {
@@ -68,4 +70,15 @@ export interface Booking extends DateRange {
   totalPrice: number;
   status: BookingStatus;
   createdAt: string; // ISO timestamp
+}
+
+export interface DeveloperProfile {
+  id: string;
+  name: string;
+  role: string;
+  nickname: string;
+  image: string;
+  bio: string;
+  quote: string;
+  specialty: string;
 }
