@@ -22,7 +22,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 68,
     rating: '4.9',
     reviewsCount: 142,
-    imageUrl: '/src/assets/imageUrls/apt_bukin_living_room_1795431637644.jpg',
+    imageUrl: 'public/images/apartments/apt-1.jpg',
     shortHook: 'Тот самый протёртый кожаный диван, лестница на второй этаж без перил и вид на обувной отдел.',
     fullDescription: [
       'Добро пожаловать в святая святых уральского уюта. Здесь каждый скрип половицы помнит исторический хет-трик в финале турнира «Кожаный мяч», а вмятина в центре кожаного дивана идеально повторяет анатомию уставшего после смены человека.',
@@ -125,7 +125,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 42,
     rating: '4.8',
     reviewsCount: 89,
-    imageUrl: '/src/assets/imageUrls/apt_garage_mancave_1795431637422.jpg',
+    imageUrl: 'public/images/apartments/apt-2.jpg',
     shortHook: 'Утеплённый лофт для мужских разговоров: бильярд, мини-холодильник и ноль цветочных занавесок.',
     fullDescription: [
       'Официальная штаб-квартира отдыха от бытовой суеты. Бывший кирпичный гараж переоборудован в тёплую студию с толстыми стенами, где можно громко болеть за «Урал» и никто не попросит вынести мусор в перерыве.',
@@ -224,7 +224,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 135,
     rating: '5.0',
     reviewsCount: 54,
-    imageUrl: '/src/assets/imageUrls/apt_penthouse_luxury_1795431637101.jpg',
+    imageUrl: 'public/images/apartments/apt-3.jpg',
     shortHook: 'Так жил бы Букин, если бы выиграл в лотерею и не потратил всё на акции «МММ».',
     fullDescription: [
       'Панорамные окна от пола до потолка открывают вид на весь Екатеринбург: сверху отлично видно и городской пруд, и то, стоит ли очередь у ближайшего торгового центра.',
@@ -323,7 +323,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 38,
     rating: '4.9',
     reviewsCount: 118,
-    imageUrl: '/src/assets/imageUrls/apt_shoe_loft_studio_1795431637144.jpg',
+    imageUrl: 'public/images/apartments/apt-4.jpg',
     shortHook: 'Кирпичный лофт, где стеллаж с кедами и дерби — главный арт-объект, а до работы 14 ступенек.',
     fullDescription: [
       'Идеальный вариант для тех, кто приехал в Екатеринбург по делам или просто любит стильные камерные пространства с историей. Студия расположена прямо над знаменитым обувным павильоном.',
@@ -408,7 +408,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 74,
     rating: '4.9',
     reviewsCount: 167,
-    imageUrl: '/src/assets/imageUrls/apt_glam_jacuzzi_suite_1795431637233.jpg',
+    imageUrl: 'public/images/apartments/apt-5.jpg',
     shortHook: 'Бархатное изголовье, деликатный леопардовый акцент и ванна-джакузи для полного «без напряга».',
     fullDescription: [
       'Апартаменты для тех, кто ценит шик, блеск и категорически отказывается мыть посуду в отпуске. Интерьер балансирует между дорогим бутик-отелем и любимой эстетикой Даши Букиной: глубокий винный бархат, тёплая латунь и одна аккуратная леопардовая подушка.',
@@ -493,7 +493,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 96,
     rating: '4.9',
     reviewsCount: 95,
-    imageUrl: '/src/assets/imageUrls/apt_ural_dacha_cabin_1795431637099.jpg',
+    imageUrl: 'public/images/apartments/apt-6.jpg',
     shortHook: 'Бревенчатый дом у берёзовой рощи: настоящая печь, самовар, мангал и ни одной грядки.',
     fullDescription: [
       'Загородный дом мечты для большой компании. Главное правило ландшафтного дизайна здесь — только газон и берёзы, никаких грядок с кабачками, которые нужно пропалывать в субботу в семь утра.',
@@ -580,7 +580,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 34,
     rating: '4.7',
     reviewsCount: 64,
-    imageUrl: '/src/assets/imageUrls/apt_glam_jacuzzi_suite_1795431637233.jpg',
+    imageUrl: 'public/images/apartments/apt-7.jpg',
     shortHook: 'Огромное зеркало в пол, розовый фен и ноль сложных книг на полке.',
     fullDescription: [
       'Светлая комнатка под самой крышей, где на каждом подоконнике стоят баночки с кремом и ни одной инструкции по квантовой физике.',
@@ -643,7 +643,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 26,
     rating: '4.6',
     reviewsCount: 51,
-    imageUrl: '/src/assets/imageUrls/apt_shoe_loft_studio_1795431637144.jpg',
+    imageUrl: 'public/images/apartments/apt-8.jpg',
     shortHook: 'Стопка учебников вместо тумбочки, быстрый интернет и запас доширака.',
     fullDescription: [
       'Компактная берлога рядом с университетом для айтишников, студентов и мастеров выкручиваться из любой ситуации.',
@@ -701,7 +701,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 62,
     rating: '4.8',
     reviewsCount: 77,
-    imageUrl: '/src/assets/imageUrls/apt_bukin_living_room_1795431637644.jpg',
+    imageUrl: 'public/images/apartments/apt-9.jpg',
     shortHook: 'Образцовый порядок, кактусы на подоконнике и тонкая стена к Букиным.',
     fullDescription: [
       'Квартира с идеальным ремонтом для тех, кто любит, когда ложки лежат строго по линейке, а в банке всегда налит свежий компот.',
@@ -759,7 +759,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 22,
     rating: '4.5',
     reviewsCount: 43,
-    imageUrl: '/src/assets/imageUrls/apt_garage_mancave_1795431637422.jpg',
+    imageUrl: 'public/images/apartments/apt-10.jpg',
     shortHook: 'Минимализм для одного: матрас, розетка и полная независимость от советов.',
     fullDescription: [
       'Самый бюджетный вариант в Екатеринбурге для командировки на пару ночей или побега от ремонта дома.',
@@ -810,7 +810,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 105,
     rating: '4.9',
     reviewsCount: 84,
-    imageUrl: '/src/assets/imageUrls/apt_ural_dacha_cabin_1795431637099.jpg',
+    imageUrl: 'public/images/apartments/apt-1.jpg',
     shortHook: 'Огромный двор, куда можно с собакой, гамак и будка повышенной комфортности.',
     fullDescription: [
       'Просторный деревянный дом на краю соснового бора, где рады гостям с питомцами любого размера — от чихуахуа до настоящего лабрадора.',
@@ -863,7 +863,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 36,
     rating: '4.7',
     reviewsCount: 39,
-    imageUrl: '/src/assets/imageUrls/apt_shoe_loft_studio_1795431637144.jpg',
+    imageUrl: 'public/images/apartments/apt-2.jpg',
     shortHook: 'Шумоизоляция, плотные шторы и аптечка с валерьянкой на всякий случай.',
     fullDescription: [
       'Спокойная квартира для тех, кому нужно отдохнуть от бурных семейных споров и просто посмотреть сериал в тишине.',
@@ -915,7 +915,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 165,
     rating: '5.0',
     reviewsCount: 28,
-    imageUrl: '/src/assets/imageUrls/apt_penthouse_luxury_1795431637101.jpg',
+    imageUrl: 'public/images/apartments/apt-3.jpg',
     shortHook: 'Два этажа панорамных окон, собственный бар и шкаф под 40 пар туфель.',
     fullDescription: [
       'Флагманский объект для тех, кто хочет почувствовать себя победителем жизни, не продавая ни одной пары туфель за смену.',
@@ -973,7 +973,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 58,
     rating: '4.8',
     reviewsCount: 93,
-    imageUrl: '/src/assets/imageUrls/apt_glam_jacuzzi_suite_1795431637233.jpg',
+    imageUrl: 'public/images/apartments/apt-4.jpg',
     shortHook: 'Угловая гидромассажная ванна, тёплый пол и шёлковые шторы до самого утра.',
     fullDescription: [
       'Уютный номер для ленивых выходных, когда единственное запланированное дело — сменить пену в джакузи и заказать роллы.',
@@ -1035,7 +1035,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 72,
     rating: '4.9',
     reviewsCount: 112,
-    imageUrl: '/src/assets/imageUrls/apt_garage_mancave_1795431637422.jpg',
+    imageUrl: 'public/images/apartments/apt-5.jpg',
     shortHook: 'Кикер в полный рост, проектор на всю стену и шарфы любимой команды.',
     fullDescription: [
       'Спортивная штаб-квартира для дружной компании болельщиков. Здесь можно устроить мини-чемпионат по настольному футболу, не вставая за пиццей дальше соседнего подъезда.',
@@ -1093,7 +1093,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 52,
     rating: '4.7',
     reviewsCount: 68,
-    imageUrl: '/src/assets/imageUrls/apt_bukin_living_room_1795431637644.jpg',
+    imageUrl: 'public/images/apartments/apt-6.jpg',
     shortHook: 'Тёплый ворсовый ковёр, сервант с хрусталём и ностальгия по нулевым.',
     fullDescription: [
       'Аутентичная квартира без модного минимализма, где сразу чувствуешь себя как в любимом сериале 2000-х.',
@@ -1160,7 +1160,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 112,
     rating: '4.9',
     reviewsCount: 104,
-    imageUrl: '/src/assets/imageUrls/apt_ural_dacha_cabin_1795431637099.jpg',
+    imageUrl: 'public/images/apartments/apt-7.jpg',
     shortHook: 'Жаркая баня, купель во дворе и стол на восемь человек для душевных тостов.',
     fullDescription: [
       'Крепкий сосновый дом в пяти минутах от озера. Внутри — настоящая парная на дровах, просторная комната отдыха и большой стол из массива.',
@@ -1213,7 +1213,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 44,
     rating: '4.8',
     reviewsCount: 47,
-    imageUrl: '/src/assets/imageUrls/apt_shoe_loft_studio_1795431637144.jpg',
+    imageUrl: 'public/images/apartments/apt-8.jpg',
     shortHook: 'Высокие потолки, стеллажи из массива и сушилка сразу на шесть пар ботинок.',
     fullDescription: [
       'Творческий лофт в кирпичном здании бывшей мастерской. Просторная спальная зона, удобное рабочее место и порядок, который держится сам собой.',
@@ -1270,7 +1270,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 78,
     rating: '4.9',
     reviewsCount: 82,
-    imageUrl: '/src/assets/imageUrls/apt_glam_jacuzzi_suite_1795431637233.jpg',
+    imageUrl: 'public/images/apartments/apt-9.jpg',
     shortHook: 'Огромная ванна у окна, мягкие халаты и чувство, что о счёте думать не нужно.',
     fullDescription: [
       'Роскошный номер в самом центре города с панорамной ванной зоной, бархатной мебелью и завтраками по звонку.',
@@ -1333,7 +1333,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 142,
     rating: '5.0',
     reviewsCount: 41,
-    imageUrl: '/src/assets/imageUrls/apt_penthouse_luxury_1795431637101.jpg',
+    imageUrl: 'public/images/apartments/apt-10.jpg',
     shortHook: 'Вид на весь центр с 22-го этажа, дубовый стол и коллекция туфель за стеклом.',
     fullDescription: [
       'Светлый просторный пентхаус с видом на храм и городской пруд. Идеально для приёма важных гостей, деловых встреч или праздника в узком кругу.',
@@ -1385,7 +1385,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 39,
     rating: '4.6',
     reviewsCount: 35,
-    imageUrl: '/src/assets/imageUrls/apt_garage_mancave_1795431637422.jpg',
+    imageUrl: 'public/images/apartments/apt-1.jpg',
     shortHook: 'Тёплый кирпичный бокс с диваном, бильярдом и честным кофе в турке.',
     fullDescription: [
       'Стильный мужской угол в кирпичном лофте: толстые стены, лампочки Эдисона и ни малейшего намёка на розовые рюши.',
@@ -1437,7 +1437,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 55,
     rating: '4.8',
     reviewsCount: 73,
-    imageUrl: '/src/assets/imageUrls/apt_bukin_living_room_1795431637644.jpg',
+    imageUrl: 'public/images/apartments/apt-2.jpg',
     shortHook: 'Надёжная дверь, глазок с широким обзором и диван, на котором забываешь про звонки.',
     fullDescription: [
       'Классическая екатеринбургская двушка с уютным кожаным диваном, книжным шкафом и кухней, где всё под рукой.',
@@ -1499,7 +1499,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 41,
     rating: '4.7',
     reviewsCount: 44,
-    imageUrl: '/src/assets/imageUrls/apt_shoe_loft_studio_1795431637144.jpg',
+    imageUrl: 'public/images/apartments/apt-3.jpg',
     shortHook: 'Тёплый кирпич, льняное бельё и лучший выбор тапочек в радиусе километра.',
     fullDescription: [
       'Атмосферная студия для тех, кто приехал на Урал за делами и не любит безликие гостиницы.',
@@ -1551,7 +1551,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 98,
     rating: '4.9',
     reviewsCount: 88,
-    imageUrl: '/src/assets/imageUrls/apt_ural_dacha_cabin_1795431637099.jpg',
+    imageUrl: 'public/images/apartments/apt-4.jpg',
     shortHook: 'Десять минут до горнолыжки, сушилка для ботинок и чугунная печь.',
     fullDescription: [
       'Деревянный тёплый дом у подножия Уктусских гор. После катания на лыжах или сноуборде вас встречает жаркая печь и большой стол с самоваром.',
@@ -1609,7 +1609,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 70,
     rating: '4.9',
     reviewsCount: 115,
-    imageUrl: '/src/assets/imageUrls/apt_glam_jacuzzi_suite_1795431637233.jpg',
+    imageUrl: 'public/images/apartments/apt-5.jpg',
     shortHook: 'Массажная ванна, зеркальный шкаф и полный запрет на разговоры про быт.',
     fullDescription: [
       'Апартаменты в сталинском доме с высоченными потолками и интерьером, в котором хочется пить кофе до обеда в шёлковом халате.',
@@ -1666,7 +1666,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 76,
     rating: '4.7',
     reviewsCount: 59,
-    imageUrl: '/src/assets/imageUrls/apt_bukin_living_room_1795431637644.jpg',
+    imageUrl: 'public/images/apartments/apt-6.jpg',
     shortHook: 'Три комнаты: чтобы папа смотрел футбол, дети играли, а никто не ссорился.',
     fullDescription: [
       'Просторная семейная квартира с большой гостиной, где каждый найдёт свой угол без битвы за телевизор.',
@@ -1723,7 +1723,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 150,
     rating: '5.0',
     reviewsCount: 33,
-    imageUrl: '/src/assets/imageUrls/apt_penthouse_luxury_1795431637101.jpg',
+    imageUrl: 'public/images/apartments/apt-7.jpg',
     shortHook: 'Терраса с видом на городской пруд и барная стойка для красивых речей.',
     fullDescription: [
       'Апартаменты премиум-класса на верхнем этаже с открытой террасой, панорамным остеклением и дизайнерским светом.',
@@ -1775,7 +1775,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 37,
     rating: '4.7',
     reviewsCount: 52,
-    imageUrl: '/src/assets/imageUrls/apt_shoe_loft_studio_1795431637144.jpg',
+    imageUrl: 'public/images/apartments/apt-8.jpg',
     shortHook: 'Новый дом, чистый подъезд и ни одного скрипучего табурета.',
     fullDescription: [
       'Аккуратная холостяцкая студия в современном квартале. Внутри идеальная чистота, удобный диван и большая лоджия.',
@@ -1827,7 +1827,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 128,
     rating: '5.0',
     reviewsCount: 67,
-    imageUrl: '/src/assets/imageUrls/apt_ural_dacha_cabin_1795431637099.jpg',
+    imageUrl: 'public/images/apartments/apt-9.jpg',
     shortHook: 'Настоящая уральская глушь с камином, баней и сотовым, который ловит только у ворот.',
     fullDescription: [
       'Большой загородный дом среди вековых сосен в Сысерти. Идеален для тех, кто хочет на два дня пропасть из рабочих чатов.',
@@ -1890,7 +1890,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 56,
     rating: '4.8',
     reviewsCount: 71,
-    imageUrl: '/src/assets/imageUrls/apt_bukin_living_room_1795431637644.jpg',
+    imageUrl: 'public/images/apartments/apt-10.jpg',
     shortHook: 'До набережной 5 минут, удобный раскладной диван и тёплый балкон для созерцания.',
     fullDescription: [
       'Уютная двухкомнатная квартира на ВИЗе с простым человеческим комфортом: ничего лишнего, всё работает и приятно пахнет свежим бельём.',
@@ -1942,7 +1942,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 64,
     rating: '4.9',
     reviewsCount: 109,
-    imageUrl: '/src/assets/imageUrls/apt_glam_jacuzzi_suite_1795431637233.jpg',
+    imageUrl: 'public/images/apartments/apt-1.jpg',
     shortHook: 'Огромная круглая ванна, неон по желанию и мраморная столешница.',
     fullDescription: [
       'Стильный просторный люкс для двоих с дизайнерским освещением, большим зеркалом и глубоким джакузи.',
@@ -1990,7 +1990,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 50,
     rating: '4.6',
     reviewsCount: 38,
-    imageUrl: '/src/assets/imageUrls/apt_garage_mancave_1795431637422.jpg',
+    imageUrl: 'public/images/apartments/apt-2.jpg',
     shortHook: 'Кирпичные стены, дартс, бильярдный стол и холодильник под самые важные напитки.',
     fullDescription: [
       'Недорогая, но харизматичная берлога для мужской компании. Никто не спросит, почему вы пришли без букета и в любимых кроссовках.',
@@ -2042,7 +2042,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 148,
     rating: '4.9',
     reviewsCount: 37,
-    imageUrl: '/src/assets/imageUrls/apt_penthouse_luxury_1795431637101.jpg',
+    imageUrl: 'public/images/apartments/apt-3.jpg',
     shortHook: 'Панорама на закат, огромный обеденный стол и витрина для лучших туфель.',
     fullDescription: [
       'Современные видовые апартаменты, созданные по принципу «если уж гулять, то на 25-м этаже с комфортом».',
@@ -2099,7 +2099,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 40,
     rating: '4.8',
     reviewsCount: 91,
-    imageUrl: '/src/assets/imageUrls/apt_bukin_living_room_1795431637644.jpg',
+    imageUrl: 'public/images/apartments/apt-4.jpg',
     shortHook: 'Утеплённая лоджия с креслом-качалкой, метро через дорогу и уютный диван.',
     fullDescription: [
       'Практичная однушка в трёх минутах от станции метро «Ботаническая». На утеплённой лоджии стоят два плетёных кресла и столик для вечернего чая.',
@@ -2151,7 +2151,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 82,
     rating: '4.8',
     reviewsCount: 57,
-    imageUrl: '/src/assets/imageUrls/apt_ural_dacha_cabin_1795431637099.jpg',
+    imageUrl: 'public/images/apartments/apt-5.jpg',
     shortHook: 'Тихий дом в 20 минутах от центра с печкой, верандой и гамаком между берёз.',
     fullDescription: [
       'Компактная, но очень уютная дача для семьи или небольшой компании. Тёплые полы, печь-камин и крыльцо для утреннего кофе.',
@@ -2203,7 +2203,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 39,
     rating: '4.9',
     reviewsCount: 86,
-    imageUrl: '/src/assets/imageUrls/apt_shoe_loft_studio_1795431637144.jpg',
+    imageUrl: 'public/images/apartments/apt-6.jpg',
     shortHook: 'Кирпичный акцент, две минуты до метро «Геологическая» и идеальная обувная полка.',
     fullDescription: [
       'Стильная студия в шаге от торгового центра и набережной. Внутри — уютный лофт-интерьер, кровать-подиум и мощный кофе.',
@@ -2251,7 +2251,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 72,
     rating: '4.8',
     reviewsCount: 62,
-    imageUrl: '/src/assets/imageUrls/apt_glam_jacuzzi_suite_1795431637233.jpg',
+    imageUrl: 'public/images/apartments/apt-7.jpg',
     shortHook: 'Ванна с гидромассажем, тёплый плед и запрет на чтение рабочих писем.',
     fullDescription: [
       'Просторная двухкомнатная квартира с акцентом на релакс. Кроме спальни с бархатной кроватью есть отдельная гостиная и глубокое джакузи.',
@@ -2303,7 +2303,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 51,
     rating: '4.6',
     reviewsCount: 49,
-    imageUrl: '/src/assets/imageUrls/apt_bukin_living_room_1795431637644.jpg',
+    imageUrl: 'public/images/apartments/apt-8.jpg',
     shortHook: 'Простой честный уют: мягкий диван, горячие батареи и тихие соседи снизу.',
     fullDescription: [
       'Двухкомнатная квартира без напускного лоска, но с душой: здесь тепло зимой, всегда есть горячая вода и нормальный напор в душе.',
@@ -2355,7 +2355,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 180,
     rating: '5.0',
     reviewsCount: 22,
-    imageUrl: '/src/assets/imageUrls/apt_penthouse_luxury_1795431637101.jpg',
+    imageUrl: 'public/images/apartments/apt-9.jpg',
     shortHook: 'Четыре комнаты, винный шкаф, вид на мост и личная коллекция туфель ручной работы.',
     fullDescription: [
       'Самый просторный пентхаус на всём сервисе «Гена Букинг». Огромная столовая на восемь персон, панорамный свет и три полноценные спальни.',
@@ -2413,7 +2413,7 @@ export const APARTMENTS: Apartment[] = [
     areaSqm: 108,
     rating: '4.9',
     reviewsCount: 94,
-    imageUrl: '/src/assets/imageUrls/apt_ural_dacha_cabin_1795431637099.jpg',
+    imageUrl: 'public/images/apartments/apt-10.jpg',
     shortHook: 'Финальный босс уюта: сосновый сруб, баня, самовар и гамак на крытой террасе.',
     fullDescription: [
       'Сороковой, юбилейный объект нашего каталога — тёплый загородный дом на окраине Екатеринбурга, куда хочется уехать в пятницу и не вспоминать про понедельник.',
