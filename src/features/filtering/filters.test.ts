@@ -1,110 +1,229 @@
-import { DateRange, Property } from '../../types';
+import { Apartment, IsoDate } from '../../types';
+import { isValidDate, isValidRange } from '../booking/booking';
 import { DEFAULT_FILTERS } from './constants';
 import { applyFilters } from './filters';
 
-/** Создаёт объект аппартамента */
-const make = (
-  id: string,
-  title: string,
-  category: Property['category'],
-  pricePerNight: number,
-  maxGuests = 4,
-  bookedRanges: DateRange[] = [],
-): Property => ({
-  id,
-  title,
-  category,
-  city: 'Тбилиси',
-  district: 'Сололаки',
-  address: 'ул. Ладо Асатиани',
-  pricePerNight,
-  cleaningFee: 15,
-  maxGuests,
-  bedrooms: 2,
-  areaSqm: 48,
-  rating: 4.3,
-  reviewsCount: 11,
-  imageUrl: '',
-  gallery: [],
-  shortDescription: '',
-  description: '',
+const createApartment = (overrides: Partial<Apartment> = {}): Apartment => ({
+  id: 'apt-default',
+  slug: 'apt-default',
+  title: 'Квартира по умолчанию',
+  category: 'Классика Букиных',
+  district: 'Центр, Екатеринбург',
+  address: 'ул. Ленина, д. 1',
+  pricePerNight: 3000,
+  maxGuests: 4,
+  rooms: 2,
+  areaSqm: 50,
+  rating: '4.8',
+  reviewsCount: 20,
+  imageUrl: 'public/images/apartments/default.jpg',
+  shortHook: 'Описание',
+  fullDescription: ['Полное описание'],
   amenities: [],
-  optionalServices: [],
-  bookedRanges,
-  rules: {
-    checkInTime: '15:00',
-    checkOutTime: '11:00',
-    smokingAllowed: true,
-    petsAllowed: true,
-  },
+  services: [],
+  houseRules: [],
+  bookedDates: {},
+  ...overrides,
 });
 
-/** Массив аппартаментов */
-const data: Property[] = [
-  make('1', 'Уютный Пентхаус с террасой', 'Penthouse', 100, 3, [{ checkIn: '2026-12-10', checkOut: '2026-12-15' }]),
-  make('2', 'Панорамный Лофт с высокими потолками', 'Loft', 20, 2),
-  make('3', 'Тихая Мини-студия', 'Studio', 150, 8),
-  make('4', 'Просторный Таунхаус в зелёном квартале', 'Townhouse', 30, 2),
-  make('5', 'Тихая Студия в центре', 'Studio', 110, 4),
-];
+describe('isValidDate', () => {
+  it('принимает валидные календарные даты YYYY-MM-DD', () => {
+    expect(isValidDate('2026-11-23')).toBe(true);
+    expect(isValidDate('2028-02-29')).toBe(true);
+  });
 
-/** id-ки для объектов аппартаментов */
-const ids = (list: Property[]): string[] => list.map((p) => p.id);
+  it('отклоняет несуществующие даты и неверный формат', () => {
+    expect(isValidDate('2026-02-30')).toBe(false);
+    expect(isValidDate('2026-02-29')).toBe(false);
+    expect(isValidDate('2026-13-01')).toBe(false);
+    expect(isValidDate('23-11-2026')).toBe(false);
+    expect(isValidDate('2026/11/23')).toBe(false);
+    expect(isValidDate('')).toBe(false);
+  });
+});
+
+describe('isValidRange', () => {
+  it('возвращает true, если checkIn строго раньше checkOut и обе даты валидны', () => {
+    expect(isValidRange('2026-11-23', '2026-11-24')).toBe(true);
+    expect(isValidRange('2026-11-23', '2026-11-30')).toBe(true);
+  });
+
+  it('возвращает false при выезде в тот же день, раньше заезда или при битых датах', () => {
+    expect(isValidRange('2026-11-24', '2026-11-24')).toBe(false);
+    expect(isValidRange('2026-11-26', '2026-11-24')).toBe(false);
+    expect(isValidRange('2026-11-24', null)).toBe(false);
+    expect(isValidRange(null, '2026-11-26')).toBe(false);
+    expect(isValidRange('2026-02-30', '2026-03-05')).toBe(false);
+  });
+});
 
 describe('applyFilters', () => {
+  const aptCheap = createApartment({
+    id: 'apt-1',
+    title: 'Двушка на Гагарина',
+    category: 'Классика Букиных',
+    pricePerNight: 2000,
+    maxGuests: 2,
+    bookedDates: {
+      '2026-12-10': 'Занято',
+      '2026-12-11': 'Занято',
+    },
+  });
+
+  const aptMid = createApartment({
+    id: 'apt-2',
+    title: 'Уютная Берлога у парка',
+    category: 'Холостяцкая берлога',
+    pricePerNight: 3500,
+    maxGuests: 4,
+    bookedDates: {
+      '2026-12-20': 'Занято',
+    },
+  });
+
+  const aptExpensive = createApartment({
+    id: 'apt-3',
+    title: 'Элитный Пентхаус с видом',
+    category: 'Элитный пентхаус',
+    pricePerNight: 7000,
+    maxGuests: 6,
+    bookedDates: {},
+  });
+
+  const catalog: readonly Apartment[] = [aptCheap, aptMid, aptExpensive];
+
   it('возвращает всё в исходном порядке с фильтрами по умолчанию', () => {
-    expect(ids(applyFilters(data, DEFAULT_FILTERS))).toEqual(['1', '2', '3', '4', '5']);
+    const result = applyFilters(catalog, { ...DEFAULT_FILTERS });
+
+    expect(result.map((a) => a.id)).toEqual(['apt-1', 'apt-2', 'apt-3']);
   });
 
-  it('поиск по части имени, без учёта регистра', () => {
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, query: 'ТИХАЯ' }))).toEqual(['3', '5']);
+  it('выполняет поиск по части имени без учёта регистра и лишних пробелов', () => {
+    const result = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      query: '  пЕнТхАуС  ',
+    });
+
+    expect(result.map((a) => a.id)).toEqual(['apt-3']);
   });
 
-  it('при пустом поисковом запросе сохраняются элементы, соответствующие другим фильтрам', () => {
-    const result = applyFilters(data, { ...DEFAULT_FILTERS, category: 'Studio' });
-    expect(ids(result)).toEqual(['3', '5']);
+  it('при пустом поисковом запросе сохраняет элементы, соответствующие другим фильтрам', () => {
+    const result = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      query: '   ',
+      category: 'Холостяцкая берлога',
+    });
+
+    expect(result.map((a) => a.id)).toEqual(['apt-2']);
   });
 
-  it('диапазон цен включает граничные значения; ограничения по границам отсутствуют', () => {
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, minPrice: 30, maxPrice: 100 }))).toEqual(['1', '4']);
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, minPrice: 100 }))).toEqual(['1', '3', '5']);
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, maxPrice: 30 }))).toEqual(['2', '4']);
+  it('включает граничные значения цен и корректно работает при отсутствии одного или обоих ограничений', () => {
+    // Точные границы [2000, 7000] включают оба крайних объекта
+    const exactBounds = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      minPrice: 2000,
+      maxPrice: 7000,
+      sort: 'price-asc',
+    });
+    expect(exactBounds.map((a) => a.id)).toEqual(['apt-1', 'apt-2', 'apt-3']);
+
+    // Задан только minPrice
+    const onlyMin = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      minPrice: 3500,
+      maxPrice: null,
+      sort: 'price-asc',
+    });
+    expect(onlyMin.map((a) => a.id)).toEqual(['apt-2', 'apt-3']);
+
+    // Задан только maxPrice
+    const onlyMax = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      minPrice: null,
+      maxPrice: 3500,
+      sort: 'price-asc',
+    });
+    expect(onlyMax.map((a) => a.id)).toEqual(['apt-1', 'apt-2']);
   });
 
-  it('фильтры по вместимости (количеству гостей)', () => {
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, guests: 3 }))).toEqual(['1', '3', '5']);
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, guests: 9 }))).toEqual([]);
+  it('фильтрует жильё по вместимости (количеству гостей)', () => {
+    const forFourGuests = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      guests: 4,
+      sort: 'price-asc',
+    });
+
+    expect(forFourGuests.map((a) => a.id)).toEqual(['apt-2', 'apt-3']);
   });
 
   it('скрывает объекты, занятые в выбранные даты', () => {
-    const dates = { checkIn: '2026-12-12', checkOut: '2026-12-14' };
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, ...dates }))).toEqual(['2', '3', '4', '5']);
+    const result = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      checkIn: '2026-12-10' as IsoDate,
+      checkOut: '2026-12-12' as IsoDate,
+    });
 
-    const free = { checkIn: '2026-12-15', checkOut: '2026-12-17' };
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, ...free }))).toEqual(['1', '2', '3', '4', '5']);
+    // apt-1 занята 10 и 11 декабря — должна быть скрыта
+    expect(result.map((a) => a.id)).toEqual(['apt-2', 'apt-3']);
   });
 
-  it('игнорирует даты, если задана только одна из них или если диапазон является недопустимым', () => {
-    const onlyIn = { ...DEFAULT_FILTERS, checkIn: '2026-12-12' };
-    expect(ids(applyFilters(data, onlyIn))).toEqual(['1', '2', '3', '4', '5']);
+  it('игнорирует даты, если задана только одна из них или диапазон недопустим', () => {
+    // Задан только checkIn
+    const onlyCheckIn = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      checkIn: '2026-12-10' as IsoDate,
+      checkOut: null,
+    });
+    expect(onlyCheckIn.map((a) => a.id)).toEqual(['apt-1', 'apt-2', 'apt-3']);
 
-    const reversed = { ...DEFAULT_FILTERS, checkIn: '2026-12-14', checkOut: '2026-12-12' };
-    expect(ids(applyFilters(data, reversed))).toEqual(['1', '2', '3', '4', '5']);
+    // Задан только checkOut
+    const onlyCheckOut = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      checkIn: null,
+      checkOut: '2026-12-12' as IsoDate,
+    });
+    expect(onlyCheckOut.map((a) => a.id)).toEqual(['apt-1', 'apt-2', 'apt-3']);
+
+    // Выезд раньше заезда (недопустимый диапазон)
+    const reversedRange = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      checkIn: '2026-12-15' as IsoDate,
+      checkOut: '2026-12-10' as IsoDate,
+    });
+    expect(reversedRange.map((a) => a.id)).toEqual(['apt-1', 'apt-2', 'apt-3']);
+
+    // Заезд и выезд в один день (0 ночей — недопустимый диапазон)
+    const sameDayRange = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      checkIn: '2026-12-10' as IsoDate,
+      checkOut: '2026-12-10' as IsoDate,
+    });
+    expect(sameDayRange.map((a) => a.id)).toEqual(['apt-1', 'apt-2', 'apt-3']);
   });
 
   it('объединяет фильтрацию и сортировку, не изменяя исходные данные', () => {
-    const copy = [...data];
-    const result = applyFilters(data, {
+    const originalSnapshot = catalog.map((a) => a.id);
+
+    const descResult = applyFilters(catalog, {
       ...DEFAULT_FILTERS,
-      query: 'ТИХАЯ',
+      maxPrice: 7000,
+      guests: 2,
+      checkIn: '2026-12-10' as IsoDate,
+      checkOut: '2026-12-12' as IsoDate,
       sort: 'price-desc',
     });
-    expect(ids(result)).toEqual(['3', '5']);
-    expect(ids(applyFilters(data, { ...DEFAULT_FILTERS, sort: 'price-asc' }))).toEqual(['2', '4', '1', '5', '3']);
-    expect(data).toEqual(copy);
+
+    expect(descResult.map((a) => a.id)).toEqual(['apt-3', 'apt-2']);
+    expect(catalog.map((a) => a.id)).toEqual(originalSnapshot);
   });
 
   it('возвращает пустой список, если ничего не найдено', () => {
-    expect(applyFilters(data, { ...DEFAULT_FILTERS, query: 'zzz' })).toEqual([]);
+    const result = applyFilters(catalog, {
+      ...DEFAULT_FILTERS,
+      query: 'несуществующий пентхаус',
+      guests: 10,
+    });
+
+    expect(result).toEqual([]);
   });
 });

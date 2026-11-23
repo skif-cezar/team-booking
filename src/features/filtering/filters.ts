@@ -1,31 +1,31 @@
-import type { FilterState, IsoDate, Property, SortOrder } from '../../types';
-import { isRangeAvailable, isValidRange } from '../booking/booking';
+import { Apartment, DateRange, IsoDate, SearchFilters, SortOrder } from '../../types';
+import { areBookedDatesAvailable, isRangeAvailable, isValidRange } from '../booking/booking';
 
 /**
  * Поиск по названию: true, если название содержит введённый текст.
  * Регистр и пробелы по краям запроса игнорируются.
  * Пустая строка подходит любому жилью (фильтр не применяется).
  */
-export const matchesSearch = (property: Property, search: string): boolean => {
+export const matchesSearch = (apartment: Apartment, search: string): boolean => {
   const query = search.trim().toLowerCase();
 
-  return query === '' || property.title.toLowerCase().includes(query);
+  return query === '' || apartment.title.toLowerCase().includes(query);
 };
 
 /**
  * Фильтр по категории: true, если выбрано «Все категории» ('all')
  * или категория жилья совпадает с выбранной.
  */
-export const matchesCategory = (property: Property, category: FilterState['category']): boolean => {
-  return category === 'all' || property.category === category;
+export const matchesCategory = (apartment: Apartment, category: SearchFilters['category']): boolean => {
+  return category === 'all' || apartment.category === category;
 };
 
 /**
  * Фильтр по цене за ночь: границы «От» и «До» включительно.
  * Если граница равна null (поле пустое), она не применяется.
  */
-export const matchesPrice = (property: Property, minPrice: number | null, maxPrice: number | null): boolean => {
-  const { pricePerNight } = property;
+export const matchesPrice = (apartment: Apartment, minPrice: number | null, maxPrice: number | null): boolean => {
+  const { pricePerNight } = apartment;
 
   if (minPrice !== null && pricePerNight < minPrice) {
     return false;
@@ -42,13 +42,13 @@ export const matchesPrice = (property: Property, minPrice: number | null, maxPri
  * Фильтр по гостям: true, если жильё вмещает не меньше гостей, чем запрошено.
  * Например, для 3 гостей студия на 2 человека не подойдёт.
  */
-export const matchesGuests = (property: Property, guests: number | null): boolean => {
+export const matchesGuests = (apartment: Apartment, guests: number | null): boolean => {
   // если кол-во гостей не указано, то фильтр подходит
   if (guests === null || guests === undefined) {
     return true;
   }
 
-  return property.maxGuests >= guests;
+  return apartment.maxGuests >= guests;
 };
 
 /**
@@ -57,7 +57,12 @@ export const matchesGuests = (property: Property, guests: number | null): boolea
  * Иначе возвращает true, то есть ничего не скрывает.
  * Доступность проверяется по списку занятых периодов property.bookedRanges.
  */
-export const matchesDates = (property: Property, checkIn: IsoDate | null, checkOut: IsoDate | null): boolean => {
+export const matchesDates = (
+  apartment: Apartment,
+  checkIn: IsoDate | null,
+  checkOut: IsoDate | null,
+  extraBookedRanges: readonly DateRange[] = [],
+): boolean => {
   if (!checkIn || !checkOut) {
     return true;
   }
@@ -66,7 +71,18 @@ export const matchesDates = (property: Property, checkIn: IsoDate | null, checkO
     return true;
   }
 
-  return isRangeAvailable(property.bookedRanges, { checkIn, checkOut });
+  const requestedRange: DateRange = { checkIn, checkOut };
+
+  const datesFree = areBookedDatesAvailable(apartment.bookedDates, requestedRange);
+  if (!datesFree) {
+    return false;
+  }
+
+  if (extraBookedRanges.length > 0) {
+    return isRangeAvailable(extraBookedRanges, requestedRange);
+  }
+
+  return true;
 };
 
 /**
@@ -74,14 +90,14 @@ export const matchesDates = (property: Property, checkIn: IsoDate | null, checkO
  * поиск, категория, цена, гости и даты (логическое «И»).
  * Порядок элементов сохраняется, исходный массив не меняется.
  */
-export const filterProperties = (properties: readonly Property[], filters: FilterState): Property[] => {
-  return properties.filter(
-    (property) =>
-      matchesSearch(property, filters.query) &&
-      matchesCategory(property, filters.category) &&
-      matchesPrice(property, filters.minPrice, filters.maxPrice) &&
-      matchesGuests(property, filters.guests) &&
-      matchesDates(property, filters.checkIn, filters.checkOut),
+export const filterProperties = (apartments: readonly Apartment[], filters: SearchFilters): Apartment[] => {
+  return apartments.filter(
+    (apartment) =>
+      matchesSearch(apartment, filters.query) &&
+      matchesCategory(apartment, filters.category) &&
+      matchesPrice(apartment, filters.minPrice, filters.maxPrice) &&
+      matchesGuests(apartment, filters.guests) &&
+      matchesDates(apartment, filters.checkIn, filters.checkOut),
   );
 };
 
@@ -93,14 +109,14 @@ export const filterProperties = (properties: readonly Property[], filters: Filte
  * Всегда возвращает НОВЫЙ массив (копию), чтобы не мутировать входные данные,
  * ведь sort() изменяет массив, на котором вызван.
  */
-export const sortProperties = (properties: readonly Property[], order: SortOrder): Property[] => {
+export const sortProperties = (apartments: readonly Apartment[], order: SortOrder): Apartment[] => {
   switch (order) {
     case 'price-asc':
-      return [...properties].sort((a, b) => a.pricePerNight - b.pricePerNight);
+      return [...apartments].sort((a, b) => a.pricePerNight - b.pricePerNight);
     case 'price-desc':
-      return [...properties].sort((a, b) => b.pricePerNight - a.pricePerNight);
+      return [...apartments].sort((a, b) => b.pricePerNight - a.pricePerNight);
     default:
-      return [...properties];
+      return [...apartments];
   }
 };
 
@@ -109,6 +125,6 @@ export const sortProperties = (properties: readonly Property[], order: SortOrder
  * затем сортирует результат. Именно её вызывает страница каталога
  * при каждом изменении фильтров.
  */
-export const applyFilters = (properties: readonly Property[], filters: FilterState): Property[] => {
-  return sortProperties(filterProperties(properties, filters), filters.sort);
+export const applyFilters = (apartments: readonly Apartment[], filters: SearchFilters): Apartment[] => {
+  return sortProperties(filterProperties(apartments, filters), filters.sort);
 };

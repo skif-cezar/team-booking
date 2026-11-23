@@ -69,6 +69,8 @@ export interface Booking extends DateRange {
   guests: number;
   totalPrice: number;
   status: BookingStatus;
+  checkIn: IsoDate;
+  checkOut: IsoDate;
   createdAt: string; // ISO timestamp
 }
 
