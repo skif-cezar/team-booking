@@ -1,33 +1,23 @@
 export type IsoDate = string; // 'YYYY-MM-DD'
 
-export type PropertyCategory = 'Studio' | 'Apartment' | 'Loft' | 'Penthouse' | 'Townhouse' | 'Villa';
+export type ApartmentCategory =
+  'Классика Букиных' | 'Холостяцкая берлога' | 'Люкс с джакузи' | 'Гараж и дача' | 'Элитный пентхаус';
 
 export type SortOrder = 'default' | 'price-asc' | 'price-desc';
 
-export type AmenityId =
-  | 'wifi'
-  | 'kitchen'
-  | 'washer'
-  | 'air-conditioning'
-  | 'parking'
-  | 'balcony'
-  | 'workspace'
-  | 'dishwasher'
-  | 'tv'
-  | 'pet-friendly'
-  | 'sauna'
-  | 'pool';
-
-export interface Amenity {
-  id: AmenityId;
-  label: string;
-  category: 'basics' | 'comfort' | 'extra';
+export interface AmenityItem {
+  id: string;
+  icon: 'sofa' | 'tv' | 'wifi' | 'fridge' | 'coffee' | 'shower' | 'parking' | 'shirt' | 'flame' | 'footprints';
+  title: string;
+  note: string;
 }
 
-export interface PaidService {
-  id: 'cleaning' | 'early-checkin' | 'airport-transfer' | 'breakfast';
-  label: string;
-  price: number; // фиксированная доплата за проживание
+export interface ServiceOption {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  unit: string;
 }
 
 export interface DateRange {
@@ -35,38 +25,31 @@ export interface DateRange {
   checkOut: IsoDate; // дата выезда (в день выезда следующий гость уже может заехать)
 }
 
-export interface Property {
+export interface Apartment {
   id: string;
+  slug: string;
   title: string;
-  category: PropertyCategory;
-  city: string;
   district: string;
   address: string;
+  category: ApartmentCategory;
   pricePerNight: number;
-  cleaningFee: number;
   maxGuests: number;
-  bedrooms: number;
+  rooms: number;
   areaSqm: number;
-  rating: number;
+  rating: string;
   reviewsCount: number;
   imageUrl: string;
-  gallery: string[];
-  shortDescription: string;
-  description: string;
-  amenities: Amenity[];
-  optionalServices: PaidService[];
-  bookedRanges: DateRange[]; // базовая занятость из моков
-  rules: {
-    checkInTime: string; // например, '15:00'
-    checkOutTime: string; // например, '11:00'
-    smokingAllowed: boolean;
-    petsAllowed: boolean;
-  };
+  shortHook: string;
+  fullDescription: string[];
+  amenities: AmenityItem[];
+  services: ServiceOption[];
+  houseRules: string[];
+  bookedDates: DateRange[];
 }
 
-export interface FilterState {
+export interface SearchFilters {
   query: string; // поиск по части названия (без учёта регистра)
-  category: PropertyCategory | 'all'; // одна категория или 'all' ('Все категории')
+  category: ApartmentCategory | 'all'; // одна категория или 'all' ('Все категории')
   minPrice: number | null; // «От» (включительно), null = граница не задана
   maxPrice: number | null; // «До» (включительно), null = граница не задана
   checkIn: IsoDate | null; // дата заселения
@@ -75,27 +58,14 @@ export interface FilterState {
   sort: SortOrder; // исходный / цена ↑ / цена ↓
 }
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  passwordHash: string; // для учебного localStorage-проекта (например, SHA-256 или простой хеш)
-  createdAt: IsoDate;
-}
-
 export type BookingStatus = 'confirmed' | 'cancelled';
 
-export interface Booking {
+export interface Booking extends DateRange {
   id: string;
   propertyId: string;
   userId: string;
-  checkIn: IsoDate;
-  checkOut: IsoDate;
   guests: number;
-  selectedServiceIds: PaidService['id'][];
-  nights: number;
   totalPrice: number;
   status: BookingStatus;
   createdAt: string; // ISO timestamp
-  updatedAt: string; // ISO timestamp
 }
