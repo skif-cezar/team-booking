@@ -1,6 +1,7 @@
 import { ROUTES } from '../../app/routes';
 import type { RoutePath } from '../../app/routes';
 import { h } from '../../utils/dom';
+import './Header.scss';
 
 interface NavLink {
   path: RoutePath;
@@ -12,6 +13,21 @@ const NAV_LINKS: readonly NavLink[] = [
   { path: ROUTES.about, label: 'О нас' },
   { path: ROUTES.catalog, label: 'Поиск жилья' },
 ];
+
+const BRAND_NAME = 'Гена Букинг';
+
+const createLogo = (): HTMLAnchorElement =>
+  h(
+    'a',
+    {
+      class: 'header__logo',
+      href: '#/',
+      // Название нужно скринридеру, ведь на телефоне надпись скрыта стилями
+      'aria-label': BRAND_NAME,
+    },
+    h('span', { class: 'header__mark', 'aria-hidden': 'true' }),
+    h('span', { class: 'header__wordmark' }, 'Гена ', h('span', { class: 'header__wordmark-accent' }, 'Букинг')),
+  );
 
 const createLink = ({ path, label }: NavLink, activePath: RoutePath): HTMLAnchorElement => {
   const isActive = path === activePath;
@@ -29,7 +45,7 @@ const createLink = ({ path, label }: NavLink, activePath: RoutePath): HTMLAnchor
 };
 
 /**
- * Шапка сайта с навигацией «О нас» / «Поиск жилья».
+ * Шапка сайта: логотип и навигация «О нас» / «Поиск жилья».
  * Ссылка, совпадающая с `activePath`, получает класс `header__link--active`
  * и атрибут `aria-current="page"`.
  *
@@ -39,5 +55,10 @@ export const Header = (activePath: RoutePath): HTMLElement =>
   h(
     'header',
     { class: 'header' },
-    h('nav', { class: 'header__nav' }, ...NAV_LINKS.map((link) => createLink(link, activePath))),
+    h(
+      'div',
+      { class: 'header__inner' },
+      createLogo(),
+      h('nav', { class: 'header__nav' }, ...NAV_LINKS.map((link) => createLink(link, activePath))),
+    ),
   );

@@ -1,0 +1,134 @@
+@use 'sass:list';
+@use 'sass:map';
+@use '../styles/variables' as *;
+
+.app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app__main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+// Декоративные пузыри на фоне. Порядок в списке = порядок элементов <i> в разметке.
+// Необязательные поля: left/right/top/bottom, color, opacity, flat (без кольца), delay.
+$bubbles: (
+  (
+    size: 260px,
+    left: -90px,
+    top: 140px,
+  ),
+  (
+    size: 120px,
+    left: 9%,
+    top: 62%,
+    color: $color-peach,
+    delay: -3s,
+  ),
+  (
+    size: 340px,
+    right: -120px,
+    top: 20%,
+    color: $color-pink,
+    delay: -6s,
+  ),
+  (
+    size: 70px,
+    right: 16%,
+    top: 12%,
+    color: $color-surface,
+    opacity: 0.9,
+    flat: true,
+    delay: -2s,
+  ),
+  (
+    size: 180px,
+    right: 6%,
+    bottom: -40px,
+    color: $color-peach,
+    delay: -8s,
+  ),
+  (
+    size: 46px,
+    left: 30%,
+    top: 8%,
+    color: $color-sky,
+    opacity: 0.8,
+    flat: true,
+    delay: -5s,
+  ),
+  (
+    size: 90px,
+    left: 46%,
+    bottom: 6%,
+    delay: -9s,
+  ),
+  (
+    size: 34px,
+    left: 4%,
+    top: 42%,
+    color: $color-surface,
+    opacity: 0.9,
+    flat: true,
+    delay: -1s,
+  )
+);
+
+.bubbles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  i {
+    position: absolute;
+    border-radius: 50%;
+    background: $color-pink-light;
+    opacity: 0.6;
+    box-shadow: inset 0 0 0 12px rgba($color-surface, 0.5);
+    animation: bob 14s ease-in-out infinite;
+  }
+}
+
+@each $bubble in $bubbles {
+  $index: list.index($bubbles, $bubble);
+
+  .bubbles i:nth-child(#{$index}) {
+    width: map.get($bubble, size);
+    height: map.get($bubble, size);
+
+    @each $side in (left, right, top, bottom) {
+      @if map.has-key($bubble, $side) {
+        #{$side}: map.get($bubble, $side);
+      }
+    }
+
+    @if map.has-key($bubble, color) {
+      background: map.get($bubble, color);
+    }
+
+    @if map.has-key($bubble, opacity) {
+      opacity: map.get($bubble, opacity);
+    }
+
+    @if map.get($bubble, flat) == true {
+      box-shadow: none;
+    }
+
+    @if map.has-key($bubble, delay) {
+      animation-delay: map.get($bubble, delay);
+    }
+  }
+}
+
+@keyframes bob {
+  50% {
+    transform: translateY(-24px);
+  }
+}
