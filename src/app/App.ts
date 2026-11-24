@@ -1,3 +1,4 @@
+import { AboutUs } from '../components/AboutUs/AboutUs';
 import { Header } from '../components/header/Header';
 import { h } from '../utils/dom';
 import { getActivePath } from './routes';
@@ -23,8 +24,21 @@ export const App = (): HTMLElement => {
   const main = h('main', { class: 'app__main' });
   const root = h('div', { class: 'app' }, createBubbles(), Header(getCurrentPath()), main);
 
+  const renderRoute = (): void => {
+    main.replaceChildren(
+      AboutUs({
+        onGoToSearch: () => {
+          window.location.hash = '#/catalog';
+        },
+      }),
+    );
+  };
+
+  renderRoute();
+
   window.addEventListener('hashchange', () => {
     root.querySelector('header')?.replaceWith(Header(getCurrentPath()));
+    renderRoute();
   });
 
   return root;

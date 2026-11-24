@@ -2458,10 +2458,10 @@ export const APARTMENTS: Apartment[] = [
 export const DEVELOPERS: DeveloperProfile[] = [
   {
     id: 'dev-skif-cezar',
-    name: 'Юрий Пригара',
+    name: 'Макс Раменский',
     role: 'Frontend developer',
     nickname: 'Хранитель чистых функций и жёсткого ESLint',
-    image: '/src/assets/images/dev_portrait_artem_1795431638306.jpg',
+    image: '/images/pfp-max.jpg',
     bio: 'Сложил фундамент проекта так, чтобы ни одна лишняя тёща и кривой тип не проскочили в продакшен: настроил Vite, TypeScript, Vitest, ESLint, Prettier, Husky и конвейер CI/CD — теперь хуки бьют по рукам быстрее, чем Гена закрывает холодильник. Написал store и пуленепробиваемые чистые функции фильтрации с unit-тестами, а заодно собрал priceRange, sortSelect, dateRangeInput и строгую валидацию цен, чтобы никто не заселился в пентхаус по цене гаража или на «-500 ₽ за ночь».',
     quote:
       '«Если priceRange прошёл валидацию цен, store не протекает, а Vitest в CI/CD горит зелёным — можно смело ложиться на диван и открывать пельмени».',
@@ -2473,7 +2473,7 @@ export const DEVELOPERS: DeveloperProfile[] = [
     name: 'Алексей Акимов',
     role: 'Frontend developer',
     nickname: 'Повелитель дизайна и пустых состояний',
-    image: '/src/assets/images/dev_portrait_ilya_1795431637493.jpg',
+    image: '/images/pfp-alex.jpg',
     bio: 'Превратил хаос задач в стройную доску GitHub Issues и Projects, нарядил весь сайт в сочный SCSS и вылизал адаптивность с доступностью так, что бронировать халупу удобно даже одной левой в обувном отделе с телефона. Спроектировал header, catalog page, страницу «О нас», propertyList с propertyCard, а также searchInput, catalogSelect, guestInput, кнопку reset и даже душевный empty state на случай, если бюджет ушёл на сапоги. И да — всё это накрыто тестами компонентов, чтобы ни один пиксель не дрогнул.',
     quote:
       '«Если после нажатия reset button вас встречает смешной empty state, а скринридер без запинки читает propertyCard — значит, SCSS и GitHub Projects сработали на хет-трик».',
