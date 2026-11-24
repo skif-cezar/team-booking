@@ -25,7 +25,7 @@ describe('store', () => {
     const store = createStore();
 
     store.setFilter('query', 'abc');
-    store.setFilter('category', 'Studio');
+    store.setFilter('category', 'Люкс с джакузи');
     store.setFilter('minPrice', 10);
     store.setFilter('checkIn', '2026-12-01');
     store.setFilter('guests', 4);

@@ -1,7 +1,7 @@
-import { FilterState } from '../../types';
+import { SearchFilters } from '../../types';
 import { DEFAULT_FILTERS } from './constants';
 
-export type Listener = (state: FilterState) => void;
+export type Listener = (state: SearchFilters) => void;
 
 /**
  * Создаёт хранилище (store) состояния фильтров и сортировки
@@ -9,7 +9,7 @@ export type Listener = (state: FilterState) => void;
  *
  * @param initial - Начальные значения фильтров (по умолчанию DEFAULT_FILTERS)
  */
-export const createStore = (initial: FilterState = DEFAULT_FILTERS) => {
+export const createStore = (initial: SearchFilters = DEFAULT_FILTERS) => {
   let state = initial;
   const listeners = new Set<Listener>();
 
@@ -20,16 +20,16 @@ export const createStore = (initial: FilterState = DEFAULT_FILTERS) => {
 
   return {
     /** Возвращает текущий снимок состояния фильтров. */
-    getState: (): FilterState => state,
+    getState: (): SearchFilters => state,
 
     /**
      * Обновляет одно поле фильтра по ключу с проверкой типа значения
      * и оповещает всех подписчиков.
      *
-     * @param key - Ключ поля из FilterState ('query', 'category', 'minPrice' и т.д.)
+     * @param key - Ключ поля из SearchFilters ('query', 'category', 'minPrice' и т.д.)
      * @param value - Новое значение, строго соответствующее типу выбранного ключа
      */
-    setFilter: <K extends keyof FilterState>(key: K, value: FilterState[K]): void => {
+    setFilter: <K extends keyof SearchFilters>(key: K, value: SearchFilters[K]): void => {
       state = { ...state, [key]: value };
       notify();
     },

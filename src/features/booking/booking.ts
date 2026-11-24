@@ -1,4 +1,4 @@
-import { DateRange } from '../../types';
+import { BookingReason, DateRange, IsoDate } from '../../types';
 
 const ISO = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -74,7 +74,27 @@ export const rangesOverlap = (a: DateRange, b: DateRange): boolean => {
  * ни с одним занятым периодом из списка `bookedRanges`.
  */
 export const isRangeAvailable = (bookedRanges: readonly DateRange[], range: DateRange): boolean => {
+  if (!isValidRange(range.checkIn, range.checkOut)) {
+    return false;
+  }
+
   const hasNoConflicts = (bookedPeriod: DateRange): boolean => !rangesOverlap(bookedPeriod, range);
 
   return bookedRanges.every(hasNoConflicts);
+};
+
+/**
+ * Проверяет, нет ли занятых дат в словаре bookedDates на полуоткрытом интервале [checkIn, checkOut).
+ */
+export const areBookedDatesAvailable = (bookedDates: Record<IsoDate, BookingReason>, range: DateRange): boolean => {
+  if (!isValidRange(range.checkIn, range.checkOut)) {
+    return false;
+  }
+
+  return Object.keys(bookedDates).every((dateStr) => {
+    const date = dateStr as IsoDate;
+    const isNightInsideRange = date >= range.checkIn && date < range.checkOut;
+
+    return !isNightInsideRange;
+  });
 };
