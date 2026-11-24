@@ -84,3 +84,8 @@ export interface DeveloperProfile {
   quote: string;
   specialty: string;
 }
+
+export interface Control {
+  element: HTMLElement;
+  sync: (state: SearchFilters) => void;
+}
