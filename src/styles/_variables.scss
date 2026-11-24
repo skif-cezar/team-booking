@@ -1,21 +1,42 @@
-// Цвета
-$color-bg: #ffffff;
-$color-text: #1f2430;
-$color-primary: #2563eb;
-$color-primary-hover: #1d4ed8;
+// Палитра дизайна «Гена Букинг»
+$color-bg: #fff1de; // фон страницы (персиковый)
+$color-surface: #fff; // шапка, карточки, панели
+$color-field: #fff8f0; // фон полей ввода
+$color-text: #2b2230;
+$color-text-muted: #5e5566;
+$color-border: #ffd9d3; // розовые границы
+$color-hover: #ffe3e0; // фон при наведении
+
+$color-coral: #ee4f6c; // акцент: значок, декор, рамка фокуса
+$color-coral-dark: #d63a58; // активные элементы и ссылки (белый текст на нём читается)
+$color-coral-darker: #a02440; // ссылки при наведении
+$color-blue: #1e9be9; // фирменные заголовки
+$color-blue-dark: #0f6cb5; // синий текст и блоки
+$color-navy: #0b4f8a; // объёмная тень заголовков
+$color-peach: #ffd9a8;
+$color-pink: #f9a3a6;
+$color-pink-light: #ffc4be;
+$color-sky: #9ad4f5;
 
 // Типографика
-$font-family-base: system-ui, 'Segoe UI', Roboto, sans-serif;
+$font-family-base:
+  'Nunito',
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  sans-serif;
 $line-height-base: 1.5;
 
-// Брейкпоинты (desktop-first: стили применяются до этой ширины включительно)
-$breakpoints: (
-  'sm': 576px,
-  'md': 768px,
-  'lg': 1024px,
-  'xl': 1280px,
-);
+// Размеры
+$header-height: 72px;
+$container-max-width: 1440px;
+$radius-pill: 999px;
+$transition-fast: 0.2s ease;
 
-// Сетка
-$container-max-width: 1200px;
-$grid-gap: 16px;
+// Брейкпоинты (desktop-first): стили действуют при ширине экрана до этого значения включительно
+$breakpoints: (
+  'sm': 639px,
+  'md': 767px,
+  'lg': 1023px,
+  'xl': 1279px,
+);

@@ -2,8 +2,12 @@
 @use 'mixins' as *;
 @use 'reset';
 
-// Базовая типографика (desktop-first: база для компьютера,
-// на маленьких экранах уменьшаем)
+html {
+  background: $color-bg;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
 body {
   font-family: $font-family-base;
   line-height: $line-height-base;
@@ -15,7 +19,7 @@ h1,
 h2,
 h3 {
   line-height: 1.2;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 h1 {
@@ -39,20 +43,26 @@ h3 {
 }
 
 a {
-  color: $color-primary;
+  color: $color-coral-dark;
 
   &:hover {
-    color: $color-primary-hover;
+    color: $color-coral-darker;
   }
 
   @include focus-ring;
 }
 
-// Общие классы сетки
-.container {
-  @include container;
-}
+// Для тех, кто отключил анимацию в системе
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-.card-grid {
-  @include card-grid;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

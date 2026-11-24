@@ -1,4 +1,4 @@
 import './styles/main.scss';
-import { h } from './utils/dom';
+import { App } from './app/App';
 
-document.querySelector<HTMLDivElement>('#app')?.append(h('h1', null, 'Booking'));
+document.querySelector<HTMLDivElement>('#app')?.append(App());
