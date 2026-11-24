@@ -17,8 +17,8 @@ export const createPriceRange = (
       'aria-label': `Цена за сутки ${label.toLowerCase()}`,
     });
 
-  const from = makeInput('input-price-from', 'От');
-  const to = makeInput('input-price-to', 'До');
+  const from = makeInput('filter-price-from', 'От');
+  const to = makeInput('filter-price-to', 'До');
   from.addEventListener('input', () => onFromChange(parsePrice(from.value)));
   to.addEventListener('input', () => onToChange(parsePrice(to.value)));
 
