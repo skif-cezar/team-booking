@@ -1,0 +1,124 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: $color-surface;
+  border-bottom: 3px solid $color-border;
+
+  &__inner {
+    @include container;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    height: $header-height;
+
+    @include respond-down('sm') {
+      gap: 16px;
+    }
+  }
+
+  // Логотип: круглый значок и название
+  &__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 12px;
+    border-radius: $radius-pill;
+    font-size: 20px;
+    letter-spacing: -0.4px;
+    white-space: nowrap;
+    color: $color-text;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-text;
+    }
+
+    @include focus-ring;
+  }
+
+  &__mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: $color-coral;
+
+    // Белый значок дома (SVG в data-URI, чтобы не создавать SVG-элементы в TS)
+    &::before {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10.5L12 3l9 7.5M5 9.5V20h14V9.5'/%3E%3Crect x='9.5' y='13' width='5' height='7' rx='1'/%3E%3C/svg%3E")
+        center / contain no-repeat;
+    }
+  }
+
+  &__wordmark {
+    font-weight: 900;
+    color: $color-blue;
+    text-shadow: 0 2px 0 $color-navy;
+
+    // На телефоне остаётся только значок (название логотипа задано через aria-label)
+    @include respond-down('sm') {
+      display: none;
+    }
+  }
+
+  &__wordmark-accent {
+    color: $color-coral;
+  }
+
+  // Навигация
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    @include respond-down('sm') {
+      gap: 8px;
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 40px;
+    padding-inline: 18px;
+    border-radius: $radius-pill;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    color: $color-text-muted;
+    text-decoration: none;
+    transition:
+      background-color $transition-fast,
+      color $transition-fast;
+
+    &:hover {
+      background: $color-hover;
+      color: $color-text;
+    }
+
+    &--active,
+    &--active:hover {
+      background: $color-coral-dark;
+      color: $color-surface;
+    }
+
+    @include focus-ring;
+
+    @include respond-down('sm') {
+      padding-inline: 16px;
+    }
+  }
+}
