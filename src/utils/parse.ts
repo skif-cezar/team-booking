@@ -1,5 +1,13 @@
+import { ISO } from '../features/booking/booking';
+import { IsoDate, SortOrder } from '../types';
 import { SORT_ORDERS } from '../features/filtering/constants';
-import { SortOrder } from '../types';
+
+/** '' → null, иначе строка даты как есть */
+export const parseDateInput = (raw: string): IsoDate | null => {
+  const trimmed = raw.trim();
+
+  return ISO.test(trimmed) ? (trimmed as IsoDate) : null;
+};
 
 /** '' → null, '120' → 120, мусор и отрицательные значения → null */
 export const parsePrice = (raw: string): number | null => {
