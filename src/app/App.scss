@@ -7,12 +7,12 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}
 
-.app__main {
-  position: relative;
-  z-index: 1;
-  flex: 1;
+  &__main {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
 }
 
 // Декоративные пузыри на фоне. Порядок в списке = порядок элементов <i> в разметке.
