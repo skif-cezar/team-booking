@@ -226,4 +226,10 @@ describe('applyFilters', () => {
 
     expect(result).toEqual([]);
   });
+
+  it('находит жильё по району', () => {
+    const result = applyFilters(catalog, { ...DEFAULT_FILTERS, query: 'екатеринбург' });
+
+    expect(result.map((a) => a.id)).toEqual(['apt-1', 'apt-2', 'apt-3']);
+  });
 });

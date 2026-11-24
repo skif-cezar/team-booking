@@ -2,14 +2,15 @@ import { Apartment, DateRange, IsoDate, SearchFilters, SortOrder } from '../../t
 import { areBookedDatesAvailable, isRangeAvailable, isValidRange } from '../booking/booking';
 
 /**
- * Поиск по названию: true, если название содержит введённый текст.
+ * Поиск по названию, району и адресу: true, если название содержит введённый текст.
  * Регистр и пробелы по краям запроса игнорируются.
  * Пустая строка подходит любому жилью (фильтр не применяется).
  */
 export const matchesSearch = (apartment: Apartment, search: string): boolean => {
   const query = search.trim().toLowerCase();
+  const haystack = `${apartment.title} ${apartment.district} ${apartment.address}`.toLowerCase();
 
-  return query === '' || apartment.title.toLowerCase().includes(query);
+  return query === '' || haystack.includes(query);
 };
 
 /**
