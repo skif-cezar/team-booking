@@ -9,7 +9,7 @@
   border-bottom: 3px solid $color-border;
 
   &__inner {
-    @include container;
+    @include wrapper(80px);
 
     display: flex;
     align-items: center;
