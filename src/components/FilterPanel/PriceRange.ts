@@ -28,7 +28,7 @@ export const createPriceRange = (
     element: h(
       'div',
       { class: 'filters__field' },
-      h('span', null, 'Цена за сутки (₽)'),
+      h('span', { class: 'filters__text' }, 'Цена за сутки (₽)'),
       h('div', { class: 'filters__range' }, from, to),
     ),
     sync: (state) => {
