@@ -2458,10 +2458,10 @@ export const APARTMENTS: Apartment[] = [
 export const DEVELOPERS: DeveloperProfile[] = [
   {
     id: 'dev-skif-cezar',
-    name: 'Макс Раменский',
+    name: 'Юрий Пригара',
     role: 'Frontend developer',
     nickname: 'Хранитель чистых функций и жёсткого ESLint',
-    image: '/images/pfp-max.jpg',
+    image: '/images/pfp-yuri.jpg',
     bio: 'Сложил фундамент проекта так, чтобы ни одна лишняя тёща и кривой тип не проскочили в продакшен: настроил Vite, TypeScript, Vitest, ESLint, Prettier, Husky и конвейер CI/CD — теперь хуки бьют по рукам быстрее, чем Гена закрывает холодильник. Написал store и пуленепробиваемые чистые функции фильтрации с unit-тестами, а заодно собрал priceRange, sortSelect, dateRangeInput и строгую валидацию цен, чтобы никто не заселился в пентхаус по цене гаража или на «-500 ₽ за ночь».',
     quote:
       '«Если priceRange прошёл валидацию цен, store не протекает, а Vitest в CI/CD горит зелёным — можно смело ложиться на диван и открывать пельмени».',
