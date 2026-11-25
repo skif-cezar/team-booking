@@ -34,12 +34,6 @@
     }
   }
 
-  &__manifesto {
-    @include respond-down('lg') {
-      grid-column: span 7;
-    }
-  }
-
   &__badge {
     display: inline-block;
     padding: 0.375rem 0.75rem;
@@ -92,7 +86,6 @@
     color: $color-surface;
 
     @include respond-down('lg') {
-      grid-column: span 5;
       padding: 2rem;
     }
   }
