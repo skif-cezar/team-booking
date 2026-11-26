@@ -1,6 +1,7 @@
 import { Control } from '../../types';
 import { h } from '../../utils/dom';
 import { parsePrice } from '../../utils/parse';
+import './FilterPanel.scss';
 
 export const createPriceRange = (
   onFromChange: (value: number | null) => void,
