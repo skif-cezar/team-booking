@@ -37,6 +37,24 @@
   &__subfield {
     width: 100%;
   }
+
+  &__reset {
+    height: 44px;
+    padding: 0 1.25rem;
+    border-radius: $radius-pill;
+    border: 0;
+    background: $color-blue-dark;
+    color: $color-surface;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $color-navy;
+    }
+
+    @include focus-ring;
+  }
 }
 
 .sort {
