@@ -1,0 +1,26 @@
+@use '../../styles/variables' as *;
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  text-align: center;
+  border: 2px dashed $color-border;
+  border-radius: 1.5rem;
+  background: $color-surface;
+
+  &__title {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: $color-text;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 1rem;
+    color: $color-text-muted;
+  }
+}
