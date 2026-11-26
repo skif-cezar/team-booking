@@ -1,5 +1,6 @@
 import { Control } from '../../types';
 import { h } from '../../utils/dom';
+import './FilterPanel.scss';
 
 export const createResetButton = (onReset: () => void): Control => {
   const button = h(
