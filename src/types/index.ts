@@ -1,3 +1,5 @@
+import { Store } from '../features/filtering/store';
+
 export type IsoDate = `${number}-${number}-${number}`; // 'YYYY-MM-DD'
 
 export type BookingReason = string;
@@ -88,4 +90,14 @@ export interface DeveloperProfile {
 export interface Control {
   element: HTMLElement;
   sync: (state: SearchFilters) => void;
+}
+
+export interface Page {
+  element: HTMLElement;
+  destroy?: () => void;
+}
+
+export interface AppOptions {
+  apartments?: readonly Apartment[];
+  filterStore?: Store;
 }
