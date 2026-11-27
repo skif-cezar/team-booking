@@ -1,6 +1,5 @@
 import { Control } from '../../types';
 import { h } from '../../utils/dom';
-import './FilterPanel.scss';
 
 export const createSearchInput = (onChange: (value: string) => void): Control => {
   const input = h('input', {
@@ -14,7 +13,7 @@ export const createSearchInput = (onChange: (value: string) => void): Control =>
   input.addEventListener('input', () => onChange(input.value));
 
   return {
-    element: h('div', { class: 'filters__field' }, h('span', { class: 'filters__text' }, 'Поиск'), input),
+    element: h('div', { class: 'filters__field' }, h('span', { class: 'filters__text' }, 'Название'), input),
     sync: (state) => {
       if (input.value !== state.query) input.value = state.query;
     },

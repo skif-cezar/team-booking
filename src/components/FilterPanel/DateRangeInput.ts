@@ -2,7 +2,6 @@ import { todayISO } from '../../features/booking/booking';
 import { Control, IsoDate } from '../../types';
 import { h } from '../../utils/dom';
 import { parseDateInput } from '../../utils/parse';
-import './FilterPanel.scss';
 
 export const createDateRangeInput = (
   onCheckInChange: (value: IsoDate | null) => void,

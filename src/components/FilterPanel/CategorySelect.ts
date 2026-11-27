@@ -2,7 +2,6 @@ import { CATEGORIES } from '../../data/properties';
 import { ApartmentCategory } from '../../types';
 import { Control } from '../../types';
 import { h } from '../../utils/dom';
-import './FilterPanel.scss';
 
 export const createCategorySelect = (onChange: (value: ApartmentCategory | 'all') => void): Control => {
   const select = h(

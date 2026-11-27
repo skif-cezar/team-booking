@@ -2,7 +2,6 @@ import { SORT_ORDERS, SORT_LABELS } from '../../features/filtering/constants';
 import { Control, SortOrder } from '../../types';
 import { h } from '../../utils/dom';
 import { parseSort } from '../../utils/parse';
-import './FilterPanel.scss';
 
 export const createSortSelect = (onChange: (value: SortOrder) => void): Control => {
   const select = h(
