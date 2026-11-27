@@ -4,7 +4,9 @@ import { Apartment, Page, SearchFilters } from '../../types';
 import { h } from '../../utils/dom';
 import { createFilterPanel } from '../FilterPanel/FilterPanel';
 import { createPropertyList, PropertyListCallbacks } from '../PropertyCard/PropertyList';
+import { createCatalogHero } from '../Catalog/CatalogHero';
 import './CatalogPage.scss';
+import './CatalogHero.scss';
 
 /** Собирает FilterPanel + PropertyList и синхронизирует их со store. */
 export const CatalogPage = (
@@ -22,7 +24,7 @@ export const CatalogPage = (
     results.replaceChildren(createPropertyList(found, callbacks));
   };
 
-  const element = h('section', { class: 'catalog' }, panel.element, results);
+  const element = h('section', { class: 'catalog' }, createCatalogHero(), panel.element, results);
 
   render(store.getState());
   const unsubscribe = store.subscribe(render);
