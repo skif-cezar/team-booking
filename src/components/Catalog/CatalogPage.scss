@@ -3,6 +3,9 @@
 
 .catalog {
   @include wrapper(80px);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 
   &__status {
     margin: 0;

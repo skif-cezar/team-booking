@@ -44,7 +44,7 @@ export const createFilterPanel = (store: Store) => {
     'div',
     { class: 'filters__toolbar', role: 'group', 'aria-label': 'Сортировка и сброс' },
     status,
-    ...actionControls.map((control) => control.element),
+    h('div', { class: 'filters__actions' }, ...actionControls.map((control) => control.element)),
   );
 
   const element = h(

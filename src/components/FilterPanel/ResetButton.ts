@@ -15,7 +15,7 @@ export const createResetButton = (onReset: () => void): Control => {
   button.addEventListener('click', onReset);
 
   return {
-    element: h('div', { class: 'filters__field' }, button),
+    element: button,
     sync: () => {
       // Кнопка сброса обычно всегда активна
     },
