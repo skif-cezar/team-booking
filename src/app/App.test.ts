@@ -3,7 +3,8 @@ import { App } from './App';
 
 /** Меняет хэш в адресе без события, чтобы тест сам решал, когда его вызвать */
 const setHash = (hash: string): void => {
-  window.history.replaceState(null, '', `${window.location.pathname}${hash}`);
+  const normalizedHash = hash && !hash.startsWith('#') ? `#${hash}` : hash;
+  window.history.replaceState(null, '', `${window.location.pathname}${normalizedHash}`);
 };
 
 const emitHashChange = (): void => {
@@ -12,10 +13,14 @@ const emitHashChange = (): void => {
 
 /** Подпись ссылки, которая сейчас помечена как текущая страница */
 const getActiveLabel = (root: HTMLElement): string | null =>
-  root.querySelector('[aria-current="page"]')?.textContent ?? null;
+  root.querySelector('[aria-current="page"]')?.textContent?.trim() ?? null;
 
 describe('App', () => {
   beforeEach(() => {
+    setHash('');
+  });
+
+  afterEach(() => {
     setHash('');
   });
 
@@ -30,10 +35,13 @@ describe('App', () => {
     expect(getActiveLabel(App())).toBe('О нас');
   });
 
-  it('при открытии подсвечивает ссылку по текущему хэшу', () => {
+  it('при старте всегда открывает и подсвечивает «О нас», даже если хэш был другим', () => {
     setHash('#/catalog');
 
-    expect(getActiveLabel(App())).toBe('Поиск жилья');
+    const root = App();
+
+    expect(window.location.hash).toBe('#/about');
+    expect(getActiveLabel(root)).toBe('О нас');
   });
 
   it('обновляет подсветку при смене хэша', () => {
