@@ -10,10 +10,13 @@ import { createResetButton } from './ResetButton';
 import { createSearchInput } from './SearchInput';
 import { createSortSelect } from './SortSelect';
 
+const formatFoundCount = (count: number): string => `Найдено: ${count} вариантов`;
+
 export const createFilterPanel = (store: Store) => {
   const resetButton = createResetButton(() => store.reset());
+  const status = h('p', { class: 'catalog__status', 'aria-live': 'polite' });
 
-  const controls: readonly Control[] = [
+  const filterControls: readonly Control[] = [
     createSearchInput((value) => store.setFilter('query', value)),
     createCategorySelect((value) => store.setFilter('category', value)),
     createDateRangeInput(
@@ -25,17 +28,40 @@ export const createFilterPanel = (store: Store) => {
       (value) => store.setFilter('minPrice', value),
       (value) => store.setFilter('maxPrice', value),
     ),
-    createSortSelect((value) => store.setFilter('sort', value)),
-    resetButton,
   ];
+
+  const actionControls: readonly Control[] = [createSortSelect((value) => store.setFilter('sort', value)), resetButton];
+
+  const allControls: readonly Control[] = [...filterControls, ...actionControls];
+
+  const criteriaGroup = h(
+    'div',
+    { class: 'filters__criteria', role: 'group', 'aria-label': 'Параметры поиска' },
+    ...filterControls.map((control) => control.element),
+  );
+
+  const toolbarGroup = h(
+    'div',
+    { class: 'filters__toolbar', role: 'group', 'aria-label': 'Сортировка и сброс' },
+    status,
+    ...actionControls.map((control) => control.element),
+  );
 
   const element = h(
     'form',
-    { class: 'filters', onSubmit: (event: Event) => event.preventDefault() },
-    ...controls.map((control) => control.element),
+    {
+      class: 'filters',
+      'aria-label': 'Фильтры поиска жилья',
+      onSubmit: (event: Event) => event.preventDefault(),
+    },
+    criteriaGroup,
+    toolbarGroup,
   );
 
-  const sync = (state: SearchFilters): void => controls.forEach((control) => control.sync(state));
+  const sync = (state: SearchFilters, foundCount: number): void => {
+    allControls.forEach((control) => control.sync(state));
+    status.textContent = formatFoundCount(foundCount);
+  };
 
   return { element, sync };
 };
