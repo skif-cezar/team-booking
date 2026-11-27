@@ -1,6 +1,5 @@
 import { Control } from '../../types';
 import { h } from '../../utils/dom';
-import './FilterPanel.scss';
 
 export const createSearchInput = (onChange: (value: string) => void): Control => {
   const input = h('input', {

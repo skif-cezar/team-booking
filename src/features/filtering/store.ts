@@ -10,17 +10,17 @@ export type Listener = (state: SearchFilters) => void;
  * @param initial - Начальные значения фильтров (по умолчанию DEFAULT_FILTERS)
  */
 export const createStore = (initial: SearchFilters = DEFAULT_FILTERS) => {
-  let state = initial;
+  let state: SearchFilters = { ...initial };
   const listeners = new Set<Listener>();
 
   /** Уведомляет всех активных подписчиков об актуальном состоянии */
   const notify = (): void => {
-    listeners.forEach((listener) => listener(state));
+    listeners.forEach((listener) => listener({ ...state }));
   };
 
   return {
     /** Возвращает текущий снимок состояния фильтров. */
-    getState: (): SearchFilters => state,
+    getState: (): SearchFilters => ({ ...state }),
 
     /**
      * Обновляет одно поле фильтра по ключу с проверкой типа значения
@@ -39,7 +39,7 @@ export const createStore = (initial: SearchFilters = DEFAULT_FILTERS) => {
      * и оповещает подписчиков (чтобы UI-контролы очистили свои значения).
      */
     reset: (): void => {
-      state = initial;
+      state = { ...initial };
       notify();
     },
 
