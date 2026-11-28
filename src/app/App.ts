@@ -1,7 +1,8 @@
 import { AboutUs } from '../components/AboutUs/AboutUs';
+import { Footer } from '../components/footer/Footer';
 import { Header } from '../components/header/Header';
 import { h } from '../utils/dom';
-import { DEFAULT_ROUTE, getActivePath, RoutePath, ROUTES } from './routes';
+import { DEFAULT_ROUTE, getActivePath, RoutePath, ROUTES, shouldScrollToCatalog } from './routes';
 import './App.scss';
 import { AppOptions, Page } from '../types';
 import { CatalogPage } from '../components/Catalog/CatalogPage';
@@ -32,7 +33,7 @@ export const App = ({ apartments = APARTMENTS, filterStore = store }: AppOptions
   }
 
   const main = h('main', { class: 'app__main' });
-  const root = h('div', { class: 'app' }, createBubbles(), Header(getCurrentPath()), main);
+  const root = h('div', { class: 'app' }, createBubbles(), Header(getCurrentPath()), main, Footer());
 
   let activePage: Page | null = null;
 
@@ -61,11 +62,18 @@ export const App = ({ apartments = APARTMENTS, filterStore = store }: AppOptions
   const renderRoute = (): void => {
     activePage?.destroy?.();
 
+    const hash = window.location.hash;
     const currentPath = getCurrentPath();
     const nextPage = renderPage(currentPath);
 
     activePage = nextPage;
     main.replaceChildren(nextPage.element);
+
+    if (shouldScrollToCatalog(hash)) {
+      setTimeout(() => {
+        document.querySelector('#catalog')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
   };
 
   renderRoute();

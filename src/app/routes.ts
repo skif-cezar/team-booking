@@ -24,7 +24,12 @@ const isRoutePath = (value: string): value is RoutePath => KNOWN_PATHS.includes(
  * Регистр букв не важен
  */
 export const getActivePath = (hash: string): RoutePath => {
-  const path = hash.replace(/^#/, '').replace(/\/+$/, '').toLowerCase();
+  // Отбрасываем query-часть: '#/catalog?catalog' → '/catalog'
+  const [rawPath = ''] = hash.replace(/^#/, '').split('?');
+  const path = rawPath.replace(/\/+$/, '').toLowerCase();
 
   return isRoutePath(path) ? path : DEFAULT_ROUTE;
 };
+
+/** Есть ли в хэше запрос на прокрутку к фильтрам: '#/catalog?catalog' */
+export const shouldScrollToCatalog = (hash: string): boolean => hash.split('?')[1]?.includes('catalog') ?? false;
