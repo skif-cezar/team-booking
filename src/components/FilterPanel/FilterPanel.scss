@@ -25,10 +25,10 @@
     }
 
     @include respond-down('lg') {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    @include respond-down('sm') {
+    @include respond-down('md') {
       grid-template-columns: 1fr;
     }
   }
@@ -47,10 +47,7 @@
   &__actions {
     display: flex;
     gap: 0.75rem;
-
-    @include respond-down('sm') {
-      flex-direction: column;
-    }
+    flex-wrap: wrap;
   }
 
   &__field {
@@ -58,6 +55,19 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+
+    @include respond-down('lg') {
+      &:nth-child(1),
+      &:nth-child(3),
+      &:nth-child(5) {
+        grid-column: 1 / -1;
+      }
+
+      &:nth-child(2),
+      &:nth-child(4) {
+        grid-column: 1 / 2;
+      }
+    }
   }
 
   &__field:has(> .filters__range > .filters__subfield) {

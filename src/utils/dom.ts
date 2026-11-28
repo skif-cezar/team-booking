@@ -1,3 +1,5 @@
+import { IsoDate } from '../types';
+
 type Child = Node | string | null | undefined | false;
 type Props = Record<string, unknown>;
 
@@ -59,3 +61,28 @@ export const h = <K extends keyof HTMLElementTagNameMap>(
 
   return el;
 };
+
+/**
+ * DOM-helper создает SVG-элемент
+ * Пример: svg('svg', { class: 'box' })
+ */
+export const SVG_NS = 'http://www.w3.org/2000/svg';
+
+export type SvgTag = 'svg' | 'path' | 'circle';
+
+export const svg = (tag: SvgTag, attrs: Record<string, string | number>, ...children: SVGElement[]): SVGElement => {
+  const el = document.createElementNS(SVG_NS, tag);
+
+  for (const [key, value] of Object.entries(attrs)) {
+    el.setAttribute(key, String(value));
+  }
+
+  for (const child of children) {
+    el.appendChild(child);
+  }
+
+  return el;
+};
+
+export const toggleSelectedDate = (current: readonly IsoDate[], target: IsoDate): IsoDate[] =>
+  current.includes(target) ? current.filter((date) => date !== target) : [...current, target];
