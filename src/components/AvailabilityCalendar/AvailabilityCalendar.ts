@@ -144,12 +144,12 @@ const getMonthBusyEntries = (monthKey: string, bookedDates: Record<IsoDate, Book
     }));
 
 const getDayClasses = (cell: DayCellData): string => {
-  const classes = ['availability-calendar__day'];
-  if (cell.isPast) classes.push('availability-calendar__day--past');
-  else if (cell.isBusy) classes.push('availability-calendar__day--busy');
-  else classes.push('availability-calendar__day--free');
+  const classes = ['calendar__day'];
+  if (cell.isPast) classes.push('calendar__day--past');
+  else if (cell.isBusy) classes.push('calendar__day--busy');
+  else classes.push('calendar__day--free');
 
-  if (cell.isSelected) classes.push('availability-calendar__day--selected');
+  if (cell.isSelected) classes.push('calendar__day--selected');
   return classes.join(' ');
 };
 
@@ -158,7 +158,7 @@ const createChevronSvg = (direction: 'left' | 'right'): SVGElement =>
   svg(
     'svg',
     {
-      class: 'availability-calendar__nav-icon',
+      class: 'calendar__nav-icon',
       width: 24,
       height: 24,
       viewBox: '0 0 24 24',
@@ -175,14 +175,14 @@ const createChevronSvg = (direction: 'left' | 'right'): SVGElement =>
 const createLegend = (): HTMLElement =>
   h(
     'ul',
-    { class: 'availability-calendar__legend', 'aria-label': 'Обозначения статусов дат' },
+    { class: 'calendar__legend', 'aria-label': 'Обозначения статусов дат' },
     h(
       'li',
-      { class: 'availability-calendar__legend-item availability-calendar__legend-item--free' },
+      { class: 'calendar__legend-item calendar__legend-item--free' },
       svg(
         'svg',
         {
-          class: 'availability-calendar__legend-icon',
+          class: 'calendar__legend-icon',
           width: 24,
           height: 24,
           viewBox: '0 0 24 24',
@@ -200,11 +200,11 @@ const createLegend = (): HTMLElement =>
     ),
     h(
       'li',
-      { class: 'availability-calendar__legend-item availability-calendar__legend-item--busy' },
+      { class: 'calendar__legend-item calendar__legend-item--busy' },
       svg(
         'svg',
         {
-          class: 'availability-calendar__legend-icon',
+          class: 'calendar__legend-icon',
           width: 24,
           height: 24,
           viewBox: '0 0 24 24',
@@ -218,12 +218,12 @@ const createLegend = (): HTMLElement =>
         svg('path', { d: 'M4.929 4.929 19.07 19.071' }),
         svg('circle', { cx: 12, cy: 12, r: 10 }),
       ),
-      h('span', { class: 'availability-calendar__legend-text--crossed' }, 'Занято'),
+      h('span', { class: 'calendar__legend-text--crossed' }, 'Занято'),
     ),
     h(
       'li',
-      { class: 'availability-calendar__legend-item availability-calendar__legend-item--selected' },
-      h('span', { class: 'availability-calendar__legend-swatch', 'aria-hidden': 'true' }),
+      { class: 'calendar__legend-item calendar__legend-item--selected' },
+      h('span', { class: 'calendar__legend-swatch', 'aria-hidden': 'true' }),
       h('span', {}, 'Выбранные даты'),
     ),
   );
@@ -231,13 +231,13 @@ const createLegend = (): HTMLElement =>
 const createWeekdaysRow = (): HTMLElement =>
   h(
     'ul',
-    { class: 'availability-calendar__weekdays', 'aria-hidden': 'true' },
-    ...WEEKDAYS_RU.map((dayName) => h('li', { class: 'availability-calendar__weekday' }, dayName)),
+    { class: 'calendar__weekdays', 'aria-hidden': 'true' },
+    ...WEEKDAYS_RU.map((dayName) => h('li', { class: 'calendar__weekday' }, dayName)),
   );
 
 const createDayNode = (cell: DayCellData, onSelectDate?: (date: IsoDate) => void): HTMLElement => {
   if (cell.kind === 'empty' || !cell.iso || !cell.dayNumber) {
-    return h('span', { class: 'availability-calendar__empty', 'aria-hidden': 'true' });
+    return h('span', { class: 'calendar__empty', 'aria-hidden': 'true' });
   }
 
   if (cell.isPast) {
@@ -249,7 +249,7 @@ const createDayNode = (cell: DayCellData, onSelectDate?: (date: IsoDate) => void
         disabled: true,
         'aria-label': cell.ariaLabel ?? '',
       },
-      h('span', { class: 'availability-calendar__day-num' }, String(cell.dayNumber)),
+      h('span', { class: 'calendar__day-num' }, String(cell.dayNumber)),
     );
   }
 
@@ -261,8 +261,8 @@ const createDayNode = (cell: DayCellData, onSelectDate?: (date: IsoDate) => void
       'aria-label': cell.ariaLabel ?? '',
       'aria-pressed': String(Boolean(cell.isSelected)),
     },
-    h('span', { class: 'availability-calendar__day-num' }, String(cell.dayNumber)),
-    h('span', { class: 'availability-calendar__day-status' }, cell.statusLabel ?? ''),
+    h('span', { class: 'calendar__day-num' }, String(cell.dayNumber)),
+    h('span', { class: 'calendar__day-status' }, cell.statusLabel ?? ''),
   ) as HTMLButtonElement;
 
   const targetDate = cell.iso;
@@ -274,10 +274,10 @@ const createDayNode = (cell: DayCellData, onSelectDate?: (date: IsoDate) => void
 const createSummaryItem = (entry: BusyDateEntry): HTMLElement =>
   h(
     'li',
-    { class: 'availability-calendar__summary-item' },
-    h('time', { class: 'availability-calendar__summary-date', datetime: entry.iso }, entry.formattedDate),
-    h('span', { class: 'availability-calendar__summary-sep', 'aria-hidden': 'true' }, '—'),
-    h('span', { class: 'availability-calendar__summary-note' }, entry.reason),
+    { class: 'calendar__summary-item' },
+    h('time', { class: 'calendar__summary-date', datetime: entry.iso }, entry.formattedDate),
+    h('span', { class: 'calendar__summary-sep', 'aria-hidden': 'true' }, '—'),
+    h('span', { class: 'calendar__summary-note' }, entry.reason),
   );
 
 /** Компонент Календарь */
@@ -295,25 +295,25 @@ export const createAvailabilityCalendar = (
   let activeMonth = getInitialMonth(availableMonths, resolveToday(state.today));
 
   const monthTitleEl = h('h3', {
-    id: 'availability-calendar-month',
-    class: 'availability-calendar__month',
+    id: 'calendar-month',
+    class: 'calendar__month',
   });
 
   const prevBtn = h(
     'button',
-    { type: 'button', class: 'availability-calendar__nav-btn', 'aria-label': 'Предыдущий месяц' },
+    { type: 'button', class: 'calendar__nav-btn', 'aria-label': 'Предыдущий месяц' },
     createChevronSvg('left'),
   ) as HTMLButtonElement;
 
   const nextBtn = h(
     'button',
-    { type: 'button', class: 'availability-calendar__nav-btn', 'aria-label': 'Следующий месяц' },
+    { type: 'button', class: 'calendar__nav-btn', 'aria-label': 'Следующий месяц' },
     createChevronSvg('right'),
   ) as HTMLButtonElement;
 
-  const daysGridEl = h('div', { class: 'availability-calendar__days' });
-  const summaryTitleEl = h('h4', { class: 'availability-calendar__summary-title' });
-  const summaryListEl = h('ul', { class: 'availability-calendar__summary-list' });
+  const daysGridEl = h('div', { class: 'calendar__days' });
+  const summaryTitleEl = h('h4', { class: 'calendar__summary-title' });
+  const summaryListEl = h('ul', { class: 'calendar__summary-list' });
 
   const render = (): void => {
     const today = resolveToday(state.today);
@@ -344,34 +344,34 @@ export const createAvailabilityCalendar = (
 
   const element = h(
     'section',
-    { class: 'availability-calendar', 'aria-labelledby': 'availability-calendar-title' },
-    h('h2', { id: 'availability-calendar-title', class: 'availability-calendar__heading' }, 'Календарь доступности'),
+    { class: 'calendar', 'aria-labelledby': 'calendar-title' },
+    h('h2', { id: 'calendar-title', class: 'calendar__heading' }, 'Календарь доступности'),
     h(
       'div',
-      { class: 'availability-calendar__card' },
+      { class: 'calendar__card' },
       h(
         'header',
-        { class: 'availability-calendar__header' },
+        { class: 'calendar__header' },
         h(
           'div',
-          { class: 'availability-calendar__title-group' },
+          { class: 'calendar__title-group' },
           monthTitleEl,
-          h('p', { class: 'availability-calendar__hint' }, 'Нажмите на свободную дату для выбора заезда и выезда'),
+          h('p', { class: 'calendar__hint' }, 'Нажмите на свободную дату для выбора заезда и выезда'),
         ),
-        h('nav', { class: 'availability-calendar__nav', 'aria-label': 'Навигация по месяцам' }, prevBtn, nextBtn),
+        h('nav', { class: 'calendar__nav', 'aria-label': 'Навигация по месяцам' }, prevBtn, nextBtn),
       ),
       createLegend(),
       h(
         'div',
         {
-          class: 'availability-calendar__grid-wrapper',
+          class: 'calendar__grid-wrapper',
           role: 'group',
-          'aria-labelledby': 'availability-calendar-month',
+          'aria-labelledby': 'calendar-month',
         },
         createWeekdaysRow(),
         daysGridEl,
       ),
-      h('footer', { class: 'availability-calendar__summary' }, summaryTitleEl, summaryListEl),
+      h('footer', { class: 'calendar__summary' }, summaryTitleEl, summaryListEl),
     ),
   ) as HTMLElement;
 
