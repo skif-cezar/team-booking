@@ -7,6 +7,11 @@ import { createPropertyList, PropertyListCallbacks } from '../PropertyCard/Prope
 import { createCatalogHero } from '../Catalog/CatalogHero';
 import './CatalogPage.scss';
 import './CatalogHero.scss';
+import { createEmptyState } from '../EmptyState/EmptyState';
+
+// Выбор контента результатов: пустое состояние или список апартаментов
+const createResultsContent = (found: Apartment[], callbacks: PropertyListCallbacks): HTMLElement =>
+  found.length === 0 ? createEmptyState() : createPropertyList(found, callbacks);
 
 /** Собирает FilterPanel + PropertyList и синхронизирует их со store. */
 export const CatalogPage = (
@@ -21,10 +26,10 @@ export const CatalogPage = (
     const found = applyFilters(apartments, state);
 
     panel.sync(state, found.length);
-    results.replaceChildren(createPropertyList(found, callbacks));
+    results.replaceChildren(createResultsContent(found, callbacks));
   };
 
-  const element = h('section', { class: 'catalog' }, createCatalogHero(), panel.element, results);
+  const element = h('section', { id: 'catalog', class: 'catalog' }, createCatalogHero(), panel.element, results);
 
   render(store.getState());
   const unsubscribe = store.subscribe(render);
