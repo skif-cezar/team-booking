@@ -29,7 +29,7 @@ export const CatalogPage = (
     results.replaceChildren(createResultsContent(found, callbacks));
   };
 
-  const element = h('section', { class: 'catalog' }, createCatalogHero(), panel.element, results);
+  const element = h('section', { id: 'catalog', class: 'catalog' }, createCatalogHero(), panel.element, results);
 
   render(store.getState());
   const unsubscribe = store.subscribe(render);
