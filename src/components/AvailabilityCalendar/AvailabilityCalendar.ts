@@ -17,7 +17,6 @@ const toIsoDate = (year: number, monthIndex0: number, day: number): IsoDate =>
 
 const getSystemToday = (): IsoDate => {
   const now = new Date();
-
   return toIsoDate(now.getFullYear(), now.getMonth(), now.getDate());
 };
 
@@ -27,29 +26,30 @@ const toMonthKey = (iso: IsoDate): string => iso.slice(0, 7);
 
 const parseMonthKey = (monthKey: string): YearMonth => {
   const [yearStr, monthStr] = monthKey.split('-');
+  const rawMonth = Number(monthStr);
+  const monthIndex0 = Number.isInteger(rawMonth) && rawMonth >= 1 && rawMonth <= 12 ? rawMonth - 1 : 0;
+
   return {
-    year: Number(yearStr),
-    monthIndex0: (Number(monthStr) || 1) - 1,
+    year: Number(yearStr) || new Date().getFullYear(),
+    monthIndex0,
   };
 };
 
 const shiftMonthKey = (monthKey: string, delta: number): string => {
   const { year, monthIndex0 } = parseMonthKey(monthKey);
   const shifted = new Date(Date.UTC(year, monthIndex0 + delta, 1));
-
   return `${shifted.getUTCFullYear()}-${pad2(shifted.getUTCMonth() + 1)}`;
 };
 
 const formatMonthTitle = (monthKey: string): string => {
   const { year, monthIndex0 } = parseMonthKey(monthKey);
-
   return `${MONTHS_RU[monthIndex0]} ${year}`;
 };
 
 const formatRuDate = (iso: IsoDate): string => {
   const [yearStr, monthStr, dayStr] = iso.split('-');
-  const monthIndex0 = (Number(monthStr) || 1) - 1;
-
+  const rawMonth = Number(monthStr);
+  const monthIndex0 = Number.isInteger(rawMonth) && rawMonth >= 1 && rawMonth <= 12 ? rawMonth - 1 : 0;
   return `${Number(dayStr)} ${MONTHS_GENITIVE_RU[monthIndex0]} ${Number(yearStr)}`;
 };
 
@@ -63,15 +63,25 @@ const getAvailableMonths = (bookedDates: Record<IsoDate, BookingReason>, today: 
   for (const iso of Object.keys(bookedDates)) {
     monthKeys.add(iso.slice(0, 7));
   }
-
   return Array.from(monthKeys).sort();
 };
 
 const getInitialMonth = (availableMonths: string[], today: IsoDate): string => {
   const currentMonth = toMonthKey(today);
-
-  return availableMonths.includes(currentMonth) ? currentMonth : availableMonths[0];
+  return availableMonths.includes(currentMonth) ? currentMonth : (availableMonths[0] ?? currentMonth);
 };
+
+const normalizeCalendarState = (
+  nextState: AvailabilityCalendarState,
+  fallbackToday?: IsoDate,
+): Required<AvailabilityCalendarState> => ({
+  apartment: nextState.apartment,
+  selectedDates: nextState.selectedDates ?? [],
+  today: resolveToday(nextState.today ?? fallbackToday),
+});
+
+const resolveActiveMonth = (currentActiveMonth: string, availableMonths: readonly string[], today: IsoDate): string =>
+  availableMonths.includes(currentActiveMonth) ? currentActiveMonth : getInitialMonth([...availableMonths], today);
 
 const buildDayCell = (
   iso: IsoDate,
@@ -154,6 +164,7 @@ const getDayClasses = (cell: DayCellData): string => {
 };
 
 /* --- Функции построения DOM --- */
+
 const createChevronSvg = (direction: 'left' | 'right'): SVGElement =>
   svg(
     'svg',
@@ -285,14 +296,9 @@ export const createAvailabilityCalendar = (
   initialState: AvailabilityCalendarState,
   onSelectDate?: (date: IsoDate) => void,
 ): AvailabilityCalendarComponent => {
-  let state: AvailabilityCalendarState = {
-    selectedDates: [],
-    ...initialState,
-    today: resolveToday(initialState.today),
-  };
-
-  let availableMonths = getAvailableMonths(state.apartment.bookedDates, resolveToday(state.today));
-  let activeMonth = getInitialMonth(availableMonths, resolveToday(state.today));
+  let state: Required<AvailabilityCalendarState> = normalizeCalendarState(initialState);
+  let availableMonths = getAvailableMonths(state.apartment.bookedDates, state.today);
+  let activeMonth = getInitialMonth(availableMonths, state.today);
 
   const monthTitleEl = h('h3', {
     id: 'calendar-month',
@@ -316,9 +322,8 @@ export const createAvailabilityCalendar = (
   const summaryListEl = h('ul', { class: 'calendar__summary-list' });
 
   const render = (): void => {
-    const today = resolveToday(state.today);
-    const selectedDates = state.selectedDates ?? [];
-    const { bookedDates } = state.apartment;
+    const { today, selectedDates, apartment } = state;
+    const { bookedDates } = apartment;
 
     monthTitleEl.textContent = formatMonthTitle(activeMonth);
     prevBtn.disabled = activeMonth <= availableMonths[0];
@@ -380,16 +385,9 @@ export const createAvailabilityCalendar = (
   return {
     element,
     sync: (nextState) => {
-      state = {
-        ...state,
-        ...nextState,
-        today: resolveToday(nextState.today ?? state.today),
-      };
-      const resolvedToday = resolveToday(state.today);
-      availableMonths = getAvailableMonths(state.apartment.bookedDates, resolvedToday);
-      if (!availableMonths.includes(activeMonth)) {
-        activeMonth = getInitialMonth(availableMonths, resolvedToday);
-      }
+      state = normalizeCalendarState({ ...state, ...nextState }, state.today);
+      availableMonths = getAvailableMonths(state.apartment.bookedDates, state.today);
+      activeMonth = resolveActiveMonth(activeMonth, availableMonths, state.today);
       render();
     },
   };
