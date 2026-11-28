@@ -22,7 +22,7 @@ export const CatalogPage = (
     results.replaceChildren(createPropertyList(found, callbacks));
   };
 
-  const element = h('section', { class: 'catalog' }, panel.element, results);
+  const element = h('section', { id: 'catalog', class: 'catalog' }, panel.element, results);
 
   render(store.getState());
   const unsubscribe = store.subscribe(render);

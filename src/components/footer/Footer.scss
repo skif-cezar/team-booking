@@ -1,0 +1,65 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 3rem;
+  background: $color-surface;
+  border-top: 3px solid $color-border;
+
+  &__inner {
+    @include container;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.75rem;
+    font-size: 0.75rem;
+    color: $color-text-muted;
+
+    @include respond-down('sm') {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: $color-text;
+  }
+
+  &__tagline {
+    margin: 0;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  &__link {
+    color: $color-coral-dark;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover {
+      color: $color-coral-darker;
+    }
+
+    @include focus-ring;
+  }
+}
