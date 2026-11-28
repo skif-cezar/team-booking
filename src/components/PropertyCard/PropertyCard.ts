@@ -17,24 +17,49 @@ export const createPropertyCard = (apartment: Apartment, callbacks: PropertyCard
     referrerpolicy: 'no-referrer',
   });
 
-  const price = h(
-    'span',
-    { class: 'property-card__price' },
-    `${apartment.pricePerNight.toLocaleString('ru-RU')} ₽/ночь`,
-  );
   const title = h('h3', { class: 'property-card__title' }, apartment.title);
+  const district = h('p', { class: 'property-card__district' }, apartment.district);
   const meta = h(
     'p',
     { class: 'property-card__meta' },
-    `${apartment.district} · ${apartment.rooms} комн. · ${apartment.areaSqm} м²`,
+    `до ${apartment.maxGuests} гостей · ${apartment.rooms} комн. · ${apartment.areaSqm} м²`,
   );
   const hook = h('p', { class: 'property-card__hook' }, apartment.shortHook);
+
+  const price = h(
+    'span',
+    { class: 'property-card__price' },
+    `${apartment.pricePerNight.toLocaleString('ru-RU')} ₽`,
+    h('span', null, ' / сутки'),
+  );
+
+  const rating = h(
+    'span',
+    { class: 'property-card__rating' },
+    h('span', { class: 'property-card__star', 'aria-hidden': 'true' }, '★'),
+    apartment.rating,
+    h('span', { class: 'property-card__reviews' }, ` (${apartment.reviewsCount})`),
+  );
 
   const card = h(
     'article',
     { class: 'property-card' },
-    h('div', { class: 'property-card__image-wrap' }, image),
-    h('div', { class: 'property-card__body' }, title, price, meta, hook),
+    h(
+      'div',
+      { class: 'property-card__image-wrap' },
+      image,
+      h('span', { class: 'property-card__category' }, apartment.category),
+      h('span', { class: 'property-card__badge' }, 'Свободно'),
+    ),
+    h(
+      'div',
+      { class: 'property-card__body' },
+      title,
+      district,
+      meta,
+      hook,
+      h('div', { class: 'property-card__footer' }, price, rating),
+    ),
   );
 
   if (onSelect) {

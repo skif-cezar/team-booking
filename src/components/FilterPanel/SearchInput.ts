@@ -5,8 +5,8 @@ export const createSearchInput = (onChange: (value: string) => void): Control =>
   const input = h('input', {
     id: 'filter-search',
     type: 'search',
-    class: 'filters__input',
-    placeholder: 'Название, район, адрес…',
+    class: 'filters__input filters__input--search',
+    placeholder: 'Название или район',
     'aria-label': 'Поиск по названию, району и адресу',
   });
 

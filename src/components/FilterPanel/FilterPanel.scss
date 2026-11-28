@@ -6,15 +6,16 @@
   background-color: $color-surface;
   border: 2px solid $color-border;
   border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(238, 79, 108, 0.15);
 
   &__criteria {
     display: grid;
     grid-template-columns:
-      minmax(0, 1.4fr) /* Название / адрес */
+      minmax(0, 1.7fr) /* Название / адрес */
       minmax(0, 1.2fr) /* Категория */
       minmax(0, 1.7fr) /* Заезд — Выезд */
       minmax(0, 0.75fr) /* Количество гостей */
-      minmax(0, 1.3fr); /* Цена От — До */
+      minmax(0, 1fr); /* Цена От — До */
     gap: 12px;
     align-items: end;
 
@@ -95,6 +96,13 @@
     }
   }
 
+  &__input--search {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235E5566' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 12px center;
+    padding-left: 2.5rem;
+  }
+
   &__subfield {
     min-width: 0;
     display: flex;
@@ -104,17 +112,23 @@
 
   &__reset {
     height: 44px;
-    padding: 0 1.25rem;
-    border-radius: $radius-pill;
-    border: 0;
-    background: $color-blue-dark;
-    color: $color-surface;
+    padding: 0;
+    border: none;
+    background-color: $color-surface;
+    color: $color-coral-dark;
     font-weight: 800;
+    font-size: 0.875rem;
     cursor: pointer;
-    transition: background $transition-fast;
+    transition: $transition-fast;
 
     &:hover {
-      background: $color-navy;
+      color: $color-coral-darker;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      filter: grayscale(0.2);
     }
 
     @include focus-ring;

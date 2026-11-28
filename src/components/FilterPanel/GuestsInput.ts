@@ -8,8 +8,9 @@ export const createGuestsInput = (onChange: (value: number | null) => void): Con
     type: 'number',
     min: 1,
     step: 1,
+    max: 8,
     class: 'filters__input',
-    placeholder: 'Любое',
+    placeholder: 'До 8 гостей',
     'aria-label': 'Минимальное количество гостей',
   });
 

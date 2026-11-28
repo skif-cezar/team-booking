@@ -6,7 +6,7 @@
   flex-direction: column;
   width: 100%;
   background: $color-surface;
-  border: 2px solid $color-border;
+  border: 2px solid #ffe0d6;
   border-radius: 1.5rem;
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
@@ -17,10 +17,17 @@
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(238, 79, 108, 0.15);
+    .property-card__title {
+      color: $color-coral;
+    }
+    .property-card__image {
+      scale: 102%;
+    }
   }
 
   &__image-wrap {
+    position: relative;
     aspect-ratio: 16 / 10;
     overflow: hidden;
     background: $color-field;
@@ -31,13 +38,52 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: scale $transition-fast;
+  }
+
+  &__category {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    padding: 0.25rem 0.625rem;
+    border-radius: $radius-pill;
+    background: rgba($color-surface, 0.95);
+    color: $color-text;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  &__badge {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.25rem 0.625rem;
+    border-radius: $radius-pill;
+    background: #e3f6ec;
+    color: #1f7a4f;
+    font-size: 0.75rem;
+    font-weight: 800;
+
+    &::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #1f7a4f;
+    }
   }
 
   &__body {
     display: flex;
     flex-direction: column;
     gap: 0.375rem;
-    padding: 1rem;
+    padding: 1rem 1.25rem 1.25rem;
     flex: 1;
   }
 
@@ -45,13 +91,15 @@
     margin: 0;
     font-size: 1.125rem;
     font-weight: 800;
+    line-height: 1.3;
     color: $color-text;
+    transition: color $transition-fast;
   }
 
-  &__price {
-    font-size: 1rem;
-    font-weight: 700;
-    color: $color-coral;
+  &__district {
+    margin: 0;
+    font-size: 0.875rem;
+    color: $color-text-muted;
   }
 
   &__meta {
@@ -64,6 +112,50 @@
     margin: 0.5rem 0 0;
     font-size: 0.875rem;
     line-height: 1.5;
+    color: $color-text-muted;
+    flex: 1;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid $color-border;
+  }
+
+  &__price {
+    font-size: 1.375rem;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    color: $color-text;
+
+    span {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: $color-text-muted;
+    }
+  }
+
+  &__rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    font-size: 0.875rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: $color-text;
+  }
+
+  &__star {
+    color: #f5a524;
+  }
+
+  &__reviews {
+    font-weight: 600;
     color: $color-text-muted;
   }
 }
