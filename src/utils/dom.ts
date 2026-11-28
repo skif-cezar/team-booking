@@ -1,3 +1,5 @@
+import { IsoDate } from '../types';
+
 type Child = Node | string | null | undefined | false;
 type Props = Record<string, unknown>;
 
@@ -81,3 +83,6 @@ export const svg = (tag: SvgTag, attrs: Record<string, string | number>, ...chil
 
   return el;
 };
+
+export const toggleSelectedDate = (current: readonly IsoDate[], target: IsoDate): IsoDate[] =>
+  current.includes(target) ? current.filter((date) => date !== target) : [...current, target];

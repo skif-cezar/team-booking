@@ -125,6 +125,7 @@ export interface DayCellData {
   isPast?: boolean;
   isBusy?: boolean;
   isSelected?: boolean;
+  isInspected?: boolean;
   statusLabel?: string;
   ariaLabel?: string;
 }
@@ -133,4 +134,10 @@ export interface BusyDateEntry {
   iso: IsoDate;
   formattedDate: string;
   reason: string;
+}
+
+export interface BusyNoticeState {
+  iso: IsoDate;
+  formattedDate: string;
+  reasonText: string;
 }

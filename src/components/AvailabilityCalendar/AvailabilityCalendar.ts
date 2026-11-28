@@ -4,11 +4,13 @@ import {
   AvailabilityCalendarState,
   BookingReason,
   BusyDateEntry,
+  BusyNoticeState,
   DayCellData,
   IsoDate,
   YearMonth,
 } from '../../types';
 import { h, svg } from '../../utils/dom';
+import './AvailabilityCalendar.scss';
 
 const pad2 = (value: number): string => String(value).padStart(2, '0');
 
@@ -17,6 +19,7 @@ const toIsoDate = (year: number, monthIndex0: number, day: number): IsoDate =>
 
 const getSystemToday = (): IsoDate => {
   const now = new Date();
+
   return toIsoDate(now.getFullYear(), now.getMonth(), now.getDate());
 };
 
@@ -38,11 +41,13 @@ const parseMonthKey = (monthKey: string): YearMonth => {
 const shiftMonthKey = (monthKey: string, delta: number): string => {
   const { year, monthIndex0 } = parseMonthKey(monthKey);
   const shifted = new Date(Date.UTC(year, monthIndex0 + delta, 1));
+
   return `${shifted.getUTCFullYear()}-${pad2(shifted.getUTCMonth() + 1)}`;
 };
 
 const formatMonthTitle = (monthKey: string): string => {
   const { year, monthIndex0 } = parseMonthKey(monthKey);
+
   return `${MONTHS_RU[monthIndex0]} ${year}`;
 };
 
@@ -50,24 +55,50 @@ const formatRuDate = (iso: IsoDate): string => {
   const [yearStr, monthStr, dayStr] = iso.split('-');
   const rawMonth = Number(monthStr);
   const monthIndex0 = Number.isInteger(rawMonth) && rawMonth >= 1 && rawMonth <= 12 ? rawMonth - 1 : 0;
+
   return `${Number(dayStr)} ${MONTHS_GENITIVE_RU[monthIndex0]} ${Number(yearStr)}`;
 };
 
 const stripBusyPrefix = (reason: BookingReason): string => reason.replace(/^Занято:\s*/i, '');
 
+const formatNoticeReason = (reason: BookingReason): string => (/^Занято:/i.test(reason) ? reason : `Занято: ${reason}`);
+
 const buildBusyAriaLabel = (formattedDate: string, reason: BookingReason): string =>
   reason.startsWith('Занято:') ? `${formattedDate} — ${reason}` : `${formattedDate} — Занято: ${reason}`;
 
+const buildBusyNotice = (
+  inspectedBusyDate: IsoDate | null,
+  bookedDates: Record<IsoDate, BookingReason>,
+): BusyNoticeState | null => {
+  if (!inspectedBusyDate) {
+    return null;
+  }
+
+  const reason = bookedDates[inspectedBusyDate];
+  if (!reason) {
+    return null;
+  }
+
+  return {
+    iso: inspectedBusyDate,
+    formattedDate: formatRuDate(inspectedBusyDate),
+    reasonText: formatNoticeReason(reason),
+  };
+};
+
 const getAvailableMonths = (bookedDates: Record<IsoDate, BookingReason>, today: IsoDate): string[] => {
   const monthKeys = new Set<string>([toMonthKey(today)]);
+
   for (const iso of Object.keys(bookedDates)) {
     monthKeys.add(iso.slice(0, 7));
   }
+
   return Array.from(monthKeys).sort();
 };
 
 const getInitialMonth = (availableMonths: string[], today: IsoDate): string => {
   const currentMonth = toMonthKey(today);
+
   return availableMonths.includes(currentMonth) ? currentMonth : (availableMonths[0] ?? currentMonth);
 };
 
@@ -89,6 +120,7 @@ const buildDayCell = (
   today: IsoDate,
   bookedDates: Record<IsoDate, BookingReason>,
   selectedSet: ReadonlySet<IsoDate>,
+  inspectedBusyDate: IsoDate | null,
 ): DayCellData => {
   const formattedDate = formatRuDate(iso);
 
@@ -104,7 +136,8 @@ const buildDayCell = (
 
   const busyReason = bookedDates[iso];
   const isBusy = Boolean(busyReason);
-  const isSelected = selectedSet.has(iso);
+  const isSelected = !isBusy && selectedSet.has(iso);
+  const isInspected = isBusy && inspectedBusyDate === iso;
 
   return {
     kind: 'day',
@@ -113,6 +146,7 @@ const buildDayCell = (
     isPast: false,
     isBusy,
     isSelected,
+    isInspected,
     statusLabel: isBusy ? 'занято' : 'своб.',
     ariaLabel: isBusy && busyReason ? buildBusyAriaLabel(formattedDate, busyReason) : `${formattedDate} — свободно`,
   };
@@ -123,6 +157,7 @@ const buildMonthCells = (
   today: IsoDate,
   bookedDates: Record<IsoDate, BookingReason>,
   selectedDates: readonly IsoDate[],
+  inspectedBusyDate: IsoDate | null,
 ): DayCellData[] => {
   const { year, monthIndex0 } = parseMonthKey(monthKey);
   const firstWeekdayMon0 = (new Date(Date.UTC(year, monthIndex0, 1)).getUTCDay() + 6) % 7;
@@ -137,7 +172,8 @@ const buildMonthCells = (
   const days: DayCellData[] = Array.from({ length: daysInMonth }, (_, index) => {
     const dayNumber = index + 1;
     const iso = toIsoDate(year, monthIndex0, dayNumber);
-    return buildDayCell(iso, dayNumber, today, bookedDates, selectedSet);
+
+    return buildDayCell(iso, dayNumber, today, bookedDates, selectedSet, inspectedBusyDate);
   });
 
   return [...leadingEmpty, ...days, ...trailingEmpty];
@@ -160,6 +196,8 @@ const getDayClasses = (cell: DayCellData): string => {
   else classes.push('calendar__day--free');
 
   if (cell.isSelected) classes.push('calendar__day--selected');
+  if (cell.isInspected) classes.push('calendar__day--inspected');
+
   return classes.join(' ');
 };
 
@@ -246,7 +284,11 @@ const createWeekdaysRow = (): HTMLElement =>
     ...WEEKDAYS_RU.map((dayName) => h('li', { class: 'calendar__weekday' }, dayName)),
   );
 
-const createDayNode = (cell: DayCellData, onSelectDate?: (date: IsoDate) => void): HTMLElement => {
+const createDayNode = (
+  cell: DayCellData,
+  onFreeDateClick?: (date: IsoDate) => void,
+  onBusyDateClick?: (date: IsoDate) => void,
+): HTMLElement => {
   if (cell.kind === 'empty' || !cell.iso || !cell.dayNumber) {
     return h('span', { class: 'calendar__empty', 'aria-hidden': 'true' });
   }
@@ -264,20 +306,31 @@ const createDayNode = (cell: DayCellData, onSelectDate?: (date: IsoDate) => void
     );
   }
 
+  const attrs: Record<string, string> = {
+    type: 'button',
+    class: getDayClasses(cell),
+    'aria-label': cell.ariaLabel ?? '',
+  };
+
+  if (!cell.isBusy) {
+    attrs['aria-pressed'] = String(Boolean(cell.isSelected));
+  }
+
   const button = h(
     'button',
-    {
-      type: 'button',
-      class: getDayClasses(cell),
-      'aria-label': cell.ariaLabel ?? '',
-      'aria-pressed': String(Boolean(cell.isSelected)),
-    },
+    attrs,
     h('span', { class: 'calendar__day-num' }, String(cell.dayNumber)),
     h('span', { class: 'calendar__day-status' }, cell.statusLabel ?? ''),
   ) as HTMLButtonElement;
 
   const targetDate = cell.iso;
-  button.addEventListener('click', () => onSelectDate?.(targetDate));
+  button.addEventListener('click', () => {
+    if (cell.isBusy) {
+      onBusyDateClick?.(targetDate);
+      return;
+    }
+    onFreeDateClick?.(targetDate);
+  });
 
   return button;
 };
@@ -299,6 +352,7 @@ export const createAvailabilityCalendar = (
   let state: Required<AvailabilityCalendarState> = normalizeCalendarState(initialState);
   let availableMonths = getAvailableMonths(state.apartment.bookedDates, state.today);
   let activeMonth = getInitialMonth(availableMonths, state.today);
+  let inspectedBusyDate: IsoDate | null = null;
 
   const monthTitleEl = h('h3', {
     id: 'calendar-month',
@@ -318,8 +372,30 @@ export const createAvailabilityCalendar = (
   ) as HTMLButtonElement;
 
   const daysGridEl = h('div', { class: 'calendar__days' });
+  const noticeDateEl = h('strong', { class: 'calendar__notice-date' });
+  const noticeReasonEl = h('span', { class: 'calendar__notice-reason' });
+  const noticeHideBtn = h('button', { type: 'button', class: 'calendar__notice-close' }, 'Скрыть') as HTMLButtonElement;
+
+  const noticeEl = h(
+    'div',
+    { class: 'calendar__notice', role: 'status', 'aria-live': 'polite' },
+    h('p', { class: 'calendar__notice-text' }, noticeDateEl, ' ', noticeReasonEl),
+    noticeHideBtn,
+  );
+
   const summaryTitleEl = h('h4', { class: 'calendar__summary-title' });
   const summaryListEl = h('ul', { class: 'calendar__summary-list' });
+
+  const renderNotice = (notice: BusyNoticeState | null): void => {
+    if (!notice) {
+      noticeEl.hidden = true;
+      return;
+    }
+
+    noticeEl.hidden = false;
+    noticeDateEl.textContent = `${notice.formattedDate}:`;
+    noticeReasonEl.textContent = notice.reasonText;
+  };
 
   const render = (): void => {
     const { today, selectedDates, apartment } = state;
@@ -329,13 +405,33 @@ export const createAvailabilityCalendar = (
     prevBtn.disabled = activeMonth <= availableMonths[0];
     nextBtn.disabled = activeMonth >= availableMonths[availableMonths.length - 1];
 
-    const cells = buildMonthCells(activeMonth, today, bookedDates, selectedDates);
-    daysGridEl.replaceChildren(...cells.map((cell) => createDayNode(cell, onSelectDate)));
+    const cells = buildMonthCells(activeMonth, today, bookedDates, selectedDates, inspectedBusyDate);
+    daysGridEl.replaceChildren(
+      ...cells.map((cell) =>
+        createDayNode(
+          cell,
+          (freeDate) => {
+            onSelectDate?.(freeDate);
+          },
+          (busyDate) => {
+            inspectedBusyDate = busyDate;
+            render();
+          },
+        ),
+      ),
+    );
+
+    renderNotice(buildBusyNotice(inspectedBusyDate, bookedDates));
 
     const busyEntries = getMonthBusyEntries(activeMonth, bookedDates);
     summaryTitleEl.textContent = `Занятые даты в этом месяце (${busyEntries.length})`;
     summaryListEl.replaceChildren(...busyEntries.map(createSummaryItem));
   };
+
+  noticeHideBtn.addEventListener('click', () => {
+    inspectedBusyDate = null;
+    render();
+  });
 
   prevBtn.addEventListener('click', () => {
     activeMonth = shiftMonthKey(activeMonth, -1);
@@ -376,6 +472,7 @@ export const createAvailabilityCalendar = (
         createWeekdaysRow(),
         daysGridEl,
       ),
+      noticeEl,
       h('footer', { class: 'calendar__summary' }, summaryTitleEl, summaryListEl),
     ),
   ) as HTMLElement;
@@ -388,6 +485,11 @@ export const createAvailabilityCalendar = (
       state = normalizeCalendarState({ ...state, ...nextState }, state.today);
       availableMonths = getAvailableMonths(state.apartment.bookedDates, state.today);
       activeMonth = resolveActiveMonth(activeMonth, availableMonths, state.today);
+
+      if (inspectedBusyDate && !state.apartment.bookedDates[inspectedBusyDate]) {
+        inspectedBusyDate = null;
+      }
+
       render();
     },
   };
