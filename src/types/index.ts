@@ -101,3 +101,36 @@ export interface AppOptions {
   apartments?: readonly Apartment[];
   filterStore?: Store;
 }
+
+export interface AvailabilityCalendarState {
+  apartment: Apartment;
+  selectedDates?: IsoDate[];
+  today?: IsoDate;
+}
+
+export interface AvailabilityCalendarComponent {
+  element: HTMLElement;
+  sync: (state: AvailabilityCalendarState) => void;
+}
+
+export interface YearMonth {
+  year: number;
+  monthIndex0: number;
+}
+
+export interface DayCellData {
+  kind: 'empty' | 'day';
+  iso?: IsoDate;
+  dayNumber?: number;
+  isPast?: boolean;
+  isBusy?: boolean;
+  isSelected?: boolean;
+  statusLabel?: string;
+  ariaLabel?: string;
+}
+
+export interface BusyDateEntry {
+  iso: IsoDate;
+  formattedDate: string;
+  reason: string;
+}
